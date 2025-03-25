@@ -1,0 +1,53 @@
+package config
+
+import (
+	"github.com/joho/godotenv"
+	"log"
+	"os"
+	"strconv"
+)
+
+type DatabaseConfig struct {
+	url string
+}
+
+func Init() {
+	if err := godotenv.Load(); err != nil {
+		log.Fatal(".env file not loaded")
+		return
+	}
+
+	log.Println(".env file loaded")
+}
+
+func NewDatabaseConfig() *DatabaseConfig {
+	return &DatabaseConfig{
+		url: getString("DATABASE_URL", ""),
+	}
+}
+
+func getString(key string, defaultValue string) string {
+	value := os.Getenv(key)
+	if value == "" {
+		return defaultValue
+	}
+	return value
+}
+
+func getInt(key string, defaultValue int) int {
+	value := os.Getenv(key)
+	i, err := strconv.Atoi(value)
+	if err != nil {
+		return defaultValue
+	}
+	return i
+}
+
+func getBool(key string, defaultValue bool) bool {
+	value := os.Getenv(key)
+	i, err := strconv.ParseBool(value)
+	if err != nil {
+		return defaultValue
+	}
+	return i
+}
