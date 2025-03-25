@@ -15,5 +15,5 @@ func NewPagesHandler(router fiber.Router) {
 }
 
 func (h PagesHandler) base(ctx *fiber.Ctx) error {
-	return ctx.JSON("OK")
+	return ctx.JSON(fiber.Map{"status": "OK"})
 }

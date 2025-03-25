@@ -8,13 +8,13 @@ import (
 )
 
 type DatabaseConfig struct {
-	url string
+	dbUrl string
 }
 
 func Init() {
 	err := godotenv.Load()
 	if err != nil {
-		log.Fatal(".env not loaded")
+		log.Println(".env not loaded")
 		return
 	}
 	log.Println(".env loaded successfully")
@@ -22,7 +22,7 @@ func Init() {
 
 func NewDatabaseConfig() *DatabaseConfig {
 	return &DatabaseConfig{
-		url: getString("DATABASE_URL", ""),
+		dbUrl: getString("DATABASE_URL", ""),
 	}
 }
 
