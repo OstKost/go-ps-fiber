@@ -11,6 +11,13 @@ type DatabaseConfig struct {
 	dbUrl string
 }
 
+type LoggerConfig struct {
+	Format   string
+	Level    string
+	Type     string
+	FilePath string
+}
+
 func Init() {
 	err := godotenv.Load()
 	if err != nil {
@@ -23,6 +30,15 @@ func Init() {
 func NewDatabaseConfig() *DatabaseConfig {
 	return &DatabaseConfig{
 		dbUrl: getString("DATABASE_URL", ""),
+	}
+}
+
+func NewLoggerConfig() *LoggerConfig {
+	return &LoggerConfig{
+		Format:   getString("LOG_FORMAT", "text"),
+		Level:    getString("LOG_LEVEL", "info"),
+		Type:     getString("LOG_TYPE", "stdout"),
+		FilePath: getString("LOG_FILE_PATH", ""),
 	}
 }
 
