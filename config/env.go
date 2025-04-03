@@ -12,8 +12,10 @@ type DatabaseConfig struct {
 }
 
 type LoggerConfig struct {
-	Format string
-	Level  string
+	Format   string
+	Level    string
+	Type     string
+	FilePath string
 }
 
 func Init() {
@@ -33,8 +35,10 @@ func NewDatabaseConfig() *DatabaseConfig {
 
 func NewLoggerConfig() *LoggerConfig {
 	return &LoggerConfig{
-		Format: getString("LOG_FORMAT", "text"),
-		Level:  getString("LOG_LEVEL", "info"),
+		Format:   getString("LOG_FORMAT", "text"),
+		Level:    getString("LOG_LEVEL", "info"),
+		Type:     getString("LOG_TYPE", "stdout"),
+		FilePath: getString("LOG_FILE_PATH", ""),
 	}
 }
 
