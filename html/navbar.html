@@ -1,0 +1,7 @@
+{{ define "navbar" }}
+<nav class="navbar">
+    {{ range .Links }}
+        {{ template "navbarLink" . }}
+    {{ end }}
+</nav>
+{{ end }}
