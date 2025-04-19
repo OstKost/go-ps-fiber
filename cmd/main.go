@@ -2,14 +2,15 @@ package main
 
 import (
 	"fmt"
-	"github.com/gofiber/contrib/fiberzerolog"
-	"github.com/gofiber/fiber/v2"
-	"github.com/gofiber/fiber/v2/middleware/recover"
-	"github.com/gofiber/template/html/v2"
 	"log"
 	"ostkost/go-ps-fiber/internal/home"
 	"ostkost/go-ps-fiber/pkg/config"
 	"ostkost/go-ps-fiber/pkg/logger"
+
+	"github.com/gofiber/contrib/fiberzerolog"
+	"github.com/gofiber/fiber/v2"
+	"github.com/gofiber/fiber/v2/middleware/recover"
+	"github.com/gofiber/template/html/v2"
 )
 
 func main() {
@@ -28,6 +29,8 @@ func main() {
 		Logger: customLogger,
 	}))
 	app.Use(recover.New())
+
+	app.Static("/public", "./public")
 
 	home.NewHandler(app)
 

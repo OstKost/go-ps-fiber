@@ -6,12 +6,19 @@ import (
 )
 
 templ Main() {
-	<main>
-		@layout.Header() {
-			@components.Title(components.TitleProps{
-				Title: "Найди работу своей мечты",
-			})
-		}
-		<span>Main</span>
-	</main>
+	@layout.Layout(layout.LayoutProps{
+		Title:           "Найди работу своей мечты",
+		MetaDescription: "Простой поиск работы",
+	}) {
+		@layout.Menu()
+		<main>
+			@layout.Header() {
+				@components.Title(components.TitleProps{
+					Title: "Найди работу своей мечты",
+				})
+				@components.Subtitle("Простой поиск работы")
+			}
+			<span>Main</span>
+		</main>
+	}
 }
