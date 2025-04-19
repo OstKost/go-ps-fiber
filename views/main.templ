@@ -1,0 +1,17 @@
+package views
+
+import (
+	"ostkost/go-ps-fiber/views/components"
+	"ostkost/go-ps-fiber/views/layout"
+)
+
+templ Main() {
+	<main>
+		@layout.Header() {
+			@components.Title(components.TitleProps{
+				Title: "Найди работу своей мечты",
+			})
+		}
+		<span>Main</span>
+	</main>
+}

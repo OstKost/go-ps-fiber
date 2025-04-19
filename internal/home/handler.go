@@ -23,6 +23,6 @@ type User struct {
 }
 
 func (h HomeHandler) home(ctx *fiber.Ctx) error {
-	component := views.Hello("MEDIA")
+	component := views.Main()
 	return tadatper.Render(ctx, component)
 }
