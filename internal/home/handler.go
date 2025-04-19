@@ -1,10 +1,8 @@
 package home
 
 import (
-	"context"
 	"github.com/gofiber/fiber/v2"
-	"log"
-	"os"
+	"ostkost/go-ps-fiber/pkg/tadatper"
 	"ostkost/go-ps-fiber/views"
 )
 
@@ -26,10 +24,5 @@ type User struct {
 
 func (h HomeHandler) home(ctx *fiber.Ctx) error {
 	component := views.Hello("MEDIA")
-	err := component.Render(context.Background(), os.Stdout)
-	if err != nil {
-		log.Println(err)
-		return ctx.SendString(err.Error())
-	}
-	return ctx.SendString("Hello World")
+	return tadatper.Render(ctx, component)
 }
