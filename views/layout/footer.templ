@@ -1,0 +1,38 @@
+package layout
+
+templ Footer() {
+	<footer class={ footerClass() }>
+		<div class={ footerRightClass() }>
+			<span class={ footerTextClass() }>Правила обработки персональных данных</span>
+			<span class={ footerTextClass() }>Все права защищены 2025</span>
+		</div>
+	</footer>
+}
+
+css footerClass() {
+	align-self: baseline;
+	display: flex;
+	align-items: center;
+	justify-content: flex-end;
+	padding: 0 12px;
+	width: 45%;
+	height: 48px;
+	border-radius: 12px;
+	background: #3E32320D;
+}
+
+css footerRightClass() {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	width: 100%;
+	max-width: 690px;
+}
+
+css footerTextClass() {
+	font-weight: 400;
+	font-size: 12px;
+	line-height: 14px;
+	color: rgba(62, 50, 50, 0.75);
+	padding: 12px 0;
+}

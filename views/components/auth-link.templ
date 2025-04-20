@@ -1,0 +1,20 @@
+package components
+
+type AuthLinkProps struct {
+	Href string
+	Text string
+}
+
+templ AuthLink(props AuthLinkProps) {
+	<a class={ authLinkClass() } href={ templ.SafeURL(props.Href) }>{ props.Text }</a>
+}
+
+css authLinkClass() {
+	font-family: 'Roboto';
+	font-weight: 500;
+	font-size: 16px;
+	line-height: 19px;
+	text-transform: capitalize;
+	color: var(--color-black);
+	text-decoration: none;
+}

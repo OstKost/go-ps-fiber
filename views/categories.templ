@@ -1,0 +1,24 @@
+package views
+
+import (
+	"ostkost/go-ps-hw-fiber/views/components"
+	"ostkost/go-ps-hw-fiber/views/layout"
+)
+
+type CategoriesProps struct {
+	NavItems []components.NavbarItemProps
+}
+
+templ Categories(props CategoriesProps) {
+	@layout.Layout(layout.LayoutProps{
+		Title:           "Categories",
+		MetaDescription: "Categories page",
+	}) {
+		@layout.Header()
+		@layout.NavTags(props.NavItems)
+		<main>
+			<h1>Categories</h1>
+		</main>
+		@layout.Footer()
+	}
+}

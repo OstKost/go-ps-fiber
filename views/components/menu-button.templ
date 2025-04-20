@@ -1,0 +1,47 @@
+package components
+
+templ MenuButton() {
+	@MenuButtonStyle()
+	<button class="menu-button">
+		{ children... }
+		<i class="menu-button__icon"></i>
+	</button>
+}
+
+templ MenuButtonStyle() {
+	<style>
+		.menu-button{
+			position: relative;
+			border: none;
+			background: none;
+			cursor: pointer;
+			padding: 0;
+			margin: 0;
+			display: flex;
+			align-items: center;
+			gap: 2px;
+			width: 75px;
+			height: 19px;
+			font-family: 'Roboto';
+			font-weight: 500;
+			font-size: 16px;
+			line-height: 19px;
+			text-transform: capitalize;
+			color: var(--color-black);
+		}
+		.menu-button:hover .menu-button__icon{
+			opacity: 1;
+		}
+		.menu-button__icon{
+			position: absolute;
+			bottom: -4px;
+			left: 0;
+			width: 10px;
+			height: 4px;
+			border-radius: 12px;
+			transition: 200ms;
+			background-color: var(--color-primary);
+			opacity: 0;
+		}
+	</style>
+}

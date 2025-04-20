@@ -1,0 +1,21 @@
+package components
+
+templ Menu() {
+	<nav class={ menuClass() }>
+		@MenuButton() {
+			<span>Категории</span>
+			<svg width="16" height="17" viewBox="0 0 16 17" fill="none" xmlns="http://www.w3.org/2000/svg">
+				<path d="M8 11.75C7.75391 11.75 7.53516 11.668 7.37109 11.5039L2.99609 7.12891C2.64063 6.80078 2.64063 6.22656 2.99609 5.89844C3.32422 5.54297 3.89844 5.54297 4.22656 5.89844L8 9.64453L11.7461 5.89844C12.0742 5.54297 12.6484 5.54297 12.9766 5.89844C13.332 6.22656 13.332 6.80078 12.9766 7.12891L8.60156 11.5039C8.4375 11.668 8.21875 11.75 8 11.75Z" fill="#3E3232" fill-opacity="0.5"></path>
+			</svg>
+		}
+		@MenuButton() {
+			<span>Контакты</span>
+		}
+	</nav>
+}
+
+css menuClass() {
+	display: flex;
+	align-items: center;
+	gap: 67px;
+}
