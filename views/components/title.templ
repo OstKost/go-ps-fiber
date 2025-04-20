@@ -4,18 +4,17 @@ type TitleProps struct {
 	Title string
 }
 
+templ Title(props TitleProps) {
+	<h1 class={ titleClass() }>{ props.Title }</h1>
+}
+
 css titleClass() {
 	width: { "100%" };
 	height: { "80px" };
 	margin-bottom: { "12px" };
-	font-family: { "'Open Sans'" };
 	font-weight: { "700" };
 	font-size: { "70px" };
 	line-height: { "80px" };
 	text-align: { "center" };
 	color: { templ.SafeCSSProperty("var(--color-white)") };
-}
-
-templ Title(props TitleProps) {
-	<h1 class={ titleClass() }>{ props.Title }</h1>
 }

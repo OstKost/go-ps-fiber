@@ -1,0 +1,18 @@
+package layout
+
+import "ostkost/go-ps-fiber/views/components"
+
+templ HeroAction() {
+	<div>
+		@components.Title(components.TitleProps{Title: "Найди работу своей мечты"})
+		@components.Subtitle("Простой поиск работы")
+		<div>Search</div>
+		<div>Icons</div>
+	</div>
+}
+
+css heroActionClass() {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+}

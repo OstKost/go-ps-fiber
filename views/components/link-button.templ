@@ -1,0 +1,28 @@
+package components
+
+type LinkButtonProps struct {
+	Text string
+	Href string
+}
+
+templ LinkButton(props LinkButtonProps) {
+	<a href={ templ.SafeURL(props.Href) } class={ linkButtonClass() }>{ props.Text }</a>
+}
+
+css linkButtonClass() {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	height: 40px;
+	padding: 14px 20px;
+	border-radius: 8px;
+	font-size: 16px;
+	line-height: 22px;
+	color: var(--color-white);
+	text-decoration: none;
+	transition: 200ms;
+}
+
+css linkButtonClassHover() {
+	background: #adadad;
+}

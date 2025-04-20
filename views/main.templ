@@ -1,23 +1,17 @@
 package views
 
-import (
-	"ostkost/go-ps-fiber/views/components"
-	"ostkost/go-ps-fiber/views/layout"
-)
+import "ostkost/go-ps-fiber/views/layout"
 
 templ Main() {
 	@layout.Layout(layout.LayoutProps{
 		Title:           "Найди работу своей мечты",
 		MetaDescription: "Простой поиск работы",
 	}) {
-		@layout.Menu()
+		@layout.Hero() {
+			@layout.Menu()
+			@layout.HeroAction()
+		}
 		<main>
-			@layout.Header() {
-				@components.Title(components.TitleProps{
-					Title: "Найди работу своей мечты",
-				})
-				@components.Subtitle("Простой поиск работы")
-			}
 			<span>Main</span>
 		</main>
 	}
