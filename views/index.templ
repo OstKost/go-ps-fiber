@@ -1,0 +1,12 @@
+package views
+
+import "ostkost/go-ps-hw-fiber/views/layout"
+
+templ Index() {
+	@layout.Layout(layout.LayoutProps{
+		Title:           "Index",
+		MetaDescription: "Index page",
+	}) {
+		<div>Index</div>
+	}
+}

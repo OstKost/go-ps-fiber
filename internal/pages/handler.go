@@ -1,8 +1,11 @@
 package pages
 
 import (
+	"ostkost/go-ps-hw-fiber/pkg/tadapter"
+	"ostkost/go-ps-hw-fiber/views"
+	"ostkost/go-ps-hw-fiber/views/components"
+
 	"github.com/gofiber/fiber/v2"
-	"log/slog"
 )
 
 type PagesHandler struct {
@@ -14,35 +17,27 @@ func NewPagesHandler(router fiber.Router) {
 		router: router,
 	}
 
-	h.router.Get("/", h.base)
-	h.router.Get("/page", h.about)
+	h.router.Get("/", h.index)
+	h.router.Get("/categories", h.categories)
 }
 
-func (h PagesHandler) base(ctx *fiber.Ctx) error {
-	slog.Info("base", "page", "base", "count", 1)
-	return ctx.JSON(fiber.Map{"status": "OK"})
+func (h PagesHandler) index(ctx *fiber.Ctx) error {
+	component := views.Index()
+	return tadapter.Render(ctx, component)
 }
 
-func (h PagesHandler) about(ctx *fiber.Ctx) error {
-	links := []struct {
-		URL  string
-		Name string
-	}{
-		{URL: "/", Name: "base"},
-		{URL: "/page", Name: "page"},
-		{URL: "/page/users", Name: "users"},
-		{URL: "/page/users/:id", Name: "user"},
-		{URL: "/page/groups", Name: "groups"},
+func (h PagesHandler) categories(ctx *fiber.Ctx) error {
+
+	links := []components.NavbarItemProps{
+		{Href: "/", Text: "Eда", Img: "food.jpeg"},
+		{Href: "/", Text: "Животные", Img: "animals.jpeg"},
+		{Href: "/", Text: "Машины", Img: "cars.jpeg"},
+		{Href: "/", Text: "Спорт", Img: "sport.jpeg"},
+		{Href: "/", Text: "Музыка", Img: "music.jpeg"},
+		{Href: "/", Text: "Технологии", Img: "technology.jpeg"},
+		{Href: "/", Text: "Прочее", Img: "other.jpeg"},
 	}
-	data := struct {
-		Title string
-		Links []struct {
-			URL  string
-			Name string
-		}
-	}{
-		Title: "Главная страница",
-		Links: links,
-	}
-	return ctx.Render("page", data)
+
+	component := views.Categories(views.CategoriesProps{NavItems: links})
+	return tadapter.Render(ctx, component)
 }

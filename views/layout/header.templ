@@ -1,0 +1,40 @@
+package layout
+
+import "ostkost/go-ps-hw-fiber/views/components"
+
+templ Header() {
+	<header class={ headerClass() }>
+		<div class={ headerLeftClass() }>
+			@components.Logo()
+			@components.Menu()
+		</div>
+		<div class={ headerRightClass() }>
+			@components.Search()
+			@components.AuthLink(components.AuthLinkProps{Href: "/login", Text: "Войти"})
+			@components.AuthLink(components.AuthLinkProps{Href: "/register", Text: "Регистрация"})
+		</div>
+	</header>
+}
+
+css headerClass() {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	padding: 0 16px;
+	margin-bottom: 45px;
+	width: 100%;
+	max-width: 1512px;
+	height: 48px;
+}
+
+css headerLeftClass() {
+	display: flex;
+	align-items: center;
+	gap: 68px;
+}
+
+css headerRightClass() {
+	display: flex;
+	align-items: center;
+	gap: 25px;
+}

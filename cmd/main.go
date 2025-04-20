@@ -2,15 +2,14 @@ package main
 
 import (
 	"fmt"
-	"github.com/gofiber/fiber/v2"
-	"github.com/gofiber/fiber/v2/middleware/recover"
-	"github.com/gofiber/template/html/v2"
-	slogfiber "github.com/samber/slog-fiber"
 	"log"
 	"ostkost/go-ps-hw-fiber/config"
-	"ostkost/go-ps-hw-fiber/internal/logger"
 	"ostkost/go-ps-hw-fiber/internal/pages"
-	"strings"
+	"ostkost/go-ps-hw-fiber/pkg/logger"
+
+	"github.com/gofiber/fiber/v2"
+	"github.com/gofiber/fiber/v2/middleware/recover"
+	slogfiber "github.com/samber/slog-fiber"
 )
 
 func main() {
@@ -19,21 +18,14 @@ func main() {
 	dbConfig := config.NewDatabaseConfig()
 	fmt.Println(dbConfig)
 
-	engine := html.New("./html", ".html")
-	engine.AddFuncMap(map[string]interface{}{
-		"ToUpper": func(c string) string {
-			return strings.ToUpper(c)
-		},
-	})
-
-	app := fiber.New(fiber.Config{
-		Views: engine,
-	})
+	app := fiber.New()
 
 	customLogger := logger.NewLogger(loggerConfig)
 	app.Use(slogfiber.New(customLogger))
 
 	app.Use(recover.New())
+
+	app.Static("/public", "./public")
 
 	pages.NewPagesHandler(app)
 
