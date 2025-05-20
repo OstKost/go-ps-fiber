@@ -1,0 +1,24 @@
+package layout
+
+import "ostkost/go-ps-hw-fiber/views/components"
+
+templ News(newsItems []components.NewsCardProps, newsSlides []components.NewsSlideProps) {
+    @NewsStyles()
+    <div class="news__container">
+        for _, newsItem := range newsItems {
+            @components.NewsCard(newsItem)
+        }
+        @components.NewsSlider(newsSlides)
+    </div>
+}
+
+templ NewsStyles() {
+    <style>
+        .news__container {
+            display: flex;
+            // justify-content: space-between;
+            gap: 24px;
+            padding: 60px 0;
+        }
+    </style>
+}
