@@ -30,11 +30,9 @@ templ NewsSlider(slides []NewsSlideProps) {
             </button>
         </div>
         <div class="news-slider__status">
-            <div class="news-slider__status-item"></div>
-            <div class="news-slider__status-item"></div>
-            <div class="news-slider__status-item news-slider__status-item--active"></div>
-            <div class="news-slider__status-item"></div>
-            <div class="news-slider__status-item"></div>
+            for range slides {
+               <div class="news-slider__status-item"></div>
+            }
         </div>
     </div>
 }

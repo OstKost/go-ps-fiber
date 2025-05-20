@@ -470,8 +470,8 @@ func PostCardFooterAvatarClass() templ.CSSClass {
 
 func PostCardFooterInfoClass() templ.CSSClass {
 	templ_7745c5c3_CSSBuilder := templruntime.GetBuilder()
-	templ_7745c5c3_CSSBuilder.WriteString(`display:flex:
-    flex-direction: column;`)
+	templ_7745c5c3_CSSBuilder.WriteString(`display:flex;`)
+	templ_7745c5c3_CSSBuilder.WriteString(`flex-direction:column;`)
 	templ_7745c5c3_CSSBuilder.WriteString(`justify-content:space-between;`)
 	templ_7745c5c3_CSSBuilder.WriteString(`padding:0 10px;`)
 	templ_7745c5c3_CSSBuilder.WriteString(`width:100%;`)
