@@ -1,12 +1,29 @@
 package views
 
-import "ostkost/go-ps-hw-fiber/views/layout"
+import (
+	"ostkost/go-ps-hw-fiber/views/components"
+    "ostkost/go-ps-hw-fiber/views/layout"
+)
 
-templ Index() {
+type IndexProps struct {
+	NavItems []components.NavbarItemProps
+	PostItems []components.PostCardProps
+	PostsTitle string
+	News []components.NewsCardProps
+	NewsSlides []components.NewsSlideProps
+}
+
+templ Index(props IndexProps) {
 	@layout.Layout(layout.LayoutProps{
 		Title:           "Index",
 		MetaDescription: "Index page",
 	}) {
-		<div>Index</div>
+		@layout.Header()
+        @layout.NavTags(props.NavItems)
+        <main>
+            @layout.News(props.News, props.NewsSlides)
+            @layout.PostsGrid(props.PostsTitle, props.PostItems)
+        </main>
+        @layout.Footer()
 	}
 }
