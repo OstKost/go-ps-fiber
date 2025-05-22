@@ -1,0 +1,28 @@
+package components
+
+templ TitleSection(title string) {
+	<div class={ TitleSectionClass() }>
+		<div class={ TitleSectionIconClass() }></div>
+		<h4 class={ TitleSectionTextClass() }>{ title }</h4>
+	</div>
+}
+
+css TitleSectionClass() {
+	display: flex;
+	align-items: center;
+}
+
+css TitleSectionIconClass() {
+	width: 4px;
+	height: 10px;
+	background: #F81539;
+	border-radius: 12px;
+	margin-right: 6px;
+}
+
+css TitleSectionTextClass() {
+	font-weight: 500;
+	font-size: 20px;
+	line-height: 23px;
+	color: #3E3232;
+}

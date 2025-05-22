@@ -1,0 +1,60 @@
+package components
+
+templ SubmitButton(text string) {
+	@SubmitButtonStyle()
+	<button class="submit-btn" type="submit">
+		<span class="submit-btn__text">{ text } </span>
+		<div class="submit-btn__loader"></div>
+	</button>
+}
+
+templ SubmitButtonStyle() {
+	<style> 
+        .submit-btn {         
+            display: flex;
+            justify-content: center;
+            align-items: center;
+
+            width: fit-content;
+            height: 40px;
+            border-radius: 12px;
+            padding: 10px 16px;
+            border: none;
+            transition: 200ms;
+            background: #F81539BF;
+            
+            color: #ffffff;
+            font-weight: 500;
+            font-size: 14px;
+            line-height: 20px;
+            text-transform: capitalize;
+
+            cursor: pointer;
+        }
+        .submit-btn:hover {
+            background: #8e0c22bf;
+        }
+        /* HTML: <div class="submit-btn__loader"></div> */
+        .submit-btn__loader {
+            display: none;
+        }
+        .hx-request .submit-btn__loader {
+            display: block;
+            width: 50px;
+            --b: 8px; 
+            aspect-ratio: 1;
+            border-radius: 50%;
+            padding: 1px;
+            background: conic-gradient(#0000 10%,#f03355) content-box;
+            -webkit-mask:
+                repeating-conic-gradient(#0000 0deg,#000 1deg 20deg,#0000 21deg 36deg),
+                radial-gradient(farthest-side,#0000 calc(100% - var(--b) - 1px),#000 calc(100% - var(--b)));
+            -webkit-mask-composite: destination-in;
+                    mask-composite: intersect;
+            animation:l4 1s infinite steps(10);
+        }
+        @keyframes l4 {
+            to { transform: rotate(1turn) }
+        }
+    </style>
+}

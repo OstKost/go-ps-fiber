@@ -82,7 +82,7 @@ func NavTagsStyle() templ.Component {
 			templ_7745c5c3_Var2 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 4, "<style>\n        .navbar {\n            display: flex;\n\t\t\tjustify-items: space-between;\n\t\t\talign-items: center;\n            overflow-x: auto;\n            padding: 10px;\n\t\t\twidth: 100%;\n\t\t\tmax-width: 1512px;\n            background-color: #F5F5F5;\n            border-radius: 12px;\n        }\n\t\t.navbar-items {\n\t\t\tdisplay: flex;\n\t\t\tgap: 24px;\n\t\t}\n    </style>")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 4, "<style>\r\n        .navbar {\r\n            display: flex;\r\n\t\t\tjustify-items: space-between;\r\n\t\t\talign-items: center;\r\n            overflow-x: auto;\r\n            padding: 10px;\r\n\t\t\twidth: 100%;\r\n\t\t\tmax-width: 1512px;\r\n            background-color: #F5F5F5;\r\n            border-radius: 12px;\r\n        }\r\n\t\t.navbar-items {\r\n\t\t\tdisplay: flex;\r\n\t\t\tgap: 24px;\r\n\t\t}\r\n    </style>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
