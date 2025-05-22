@@ -1,0 +1,44 @@
+package widgets
+
+import "ostkost/go-ps-fiber/views/components"
+
+templ PostVacancyForm() {
+	@PostVacancyFormStyle()
+	<div id="post-vacancy-result"></div>
+	<form
+		class="post-vacancy-form__form"
+		hx-post="/vacancy"
+		hx-trigger="submit"
+		hx-target="#post-vacancy-result"
+		hx-swap="innerHTML swap:300ms settle:300ms"
+	>
+		<div class="post-vacancy-form__inputs">
+			@components.TextInput(components.TextInputProps{Name: "vacancy", Placeholder: "Должность"})
+			@components.TextInput(components.TextInputProps{Name: "company", Placeholder: "Название компании"})
+			@components.TextInput(components.TextInputProps{Name: "industry", Placeholder: "Сфера компаниии"})
+			@components.TextInput(components.TextInputProps{Name: "salary", Placeholder: "Заработная плата"})
+			@components.TextInput(components.TextInputProps{Name: "location", Placeholder: "Расположение"})
+			@components.TextInput(components.TextInputProps{Name: "email", Placeholder: "Контактный email"})
+		</div>
+		@components.SubmitButton(components.SubmitButtonProps{Text: "Опубликовать"})
+	</form>
+}
+
+templ PostVacancyFormStyle() {
+	<style>
+        .post-vacancy-form__form {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 30px;
+            width: 100%;
+        }
+        .post-vacancy-form__inputs {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 24px 30px;
+            width: 100%;
+            max-width: 894px;
+        }
+  </style>
+}

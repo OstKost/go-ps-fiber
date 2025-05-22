@@ -1,0 +1,81 @@
+package components
+
+type SubmitButtonProps struct {
+	Text string
+}
+
+templ SubmitButton(props SubmitButtonProps) {
+	@SubmitButtonStyle()
+	<button class="submit-btn" type="submit">
+		<span class="submit-btn__text">{ props.Text } </span>
+		<div class="submit-btn__loader"></div>
+	</button>
+}
+
+templ SubmitButtonStyle() {
+	<style>
+	.submit-btn {
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		width: 283px;
+		height: 80px;
+		padding-top: 14px;
+		padding-right: 28px;
+		padding-bottom: 14px;
+		padding-left: 28px;
+		gap: 10px;
+		border-radius: 20px;
+		border: none;
+		transition: 200ms;
+		background: #309689;
+		font-weight: 600;
+		font-size: 18px;
+		color: #FFFFFF;
+		cursor: pointer;
+	}
+	.submit-btn:hover {
+		background: #21665d;
+	}
+
+	.submit-btn__text {
+		display: flex;
+		justify-content: center;
+	}
+
+	.htmx-request .submit-btn__text {
+		display: none;
+	}
+
+	/* HTML: <div class="loader"></div> */
+	.submit-btn__loader {
+		display: none;
+	}
+	.htmx-request .submit-btn__loader {
+		display: block;
+		width: 50px;
+		aspect-ratio: 1;
+		display: grid;
+		border: 4px solid #0000;
+		border-radius: 50%;
+		border-right-color: #25b09b;
+		animation: l15 1s infinite linear;
+	}
+	.submit-btn__loader::before,
+	.submit-btn__loader::after {    
+		content: "";
+		grid-area: 1/1;
+		margin: 2px;
+		border: inherit;
+		border-radius: 50%;
+		animation: l15 2s infinite;
+	}
+	.submit-btn__loader::after {
+		margin: 8px;
+		animation-duration: 3s;
+	}
+	@keyframes l15{ 
+		100%{transform: rotate(1turn)}
+	}
+	</style>
+}

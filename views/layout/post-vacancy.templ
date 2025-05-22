@@ -1,0 +1,37 @@
+package layout
+
+import (
+	"ostkost/go-ps-fiber/views/components"
+	"ostkost/go-ps-fiber/views/widgets"
+)
+
+templ PostVacancy() {
+	@PostVacancyStyle()
+	<section class="post-vacancy__container">
+		<div class="post-vacancy__header">
+			@components.Title2("Опубликовать вакансию")
+			@components.Title3("Введите все необходимые данные для публикации")
+		</div>
+		@widgets.PostVacancyForm()
+	</section>
+}
+
+templ PostVacancyStyle() {
+	<style>
+        .post-vacancy__container {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            gap: 60px;
+            padding: 60px 0 120px 0;
+            background: #3096891A;
+        }
+        .post-vacancy__header {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            align-items: center;
+            height: 88px;
+        }
+    </style>
+}

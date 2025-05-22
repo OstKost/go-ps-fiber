@@ -1,0 +1,47 @@
+package components
+
+type TextInputProps struct {
+	Name        string
+	Placeholder string
+}
+
+templ TextInput(props TextInputProps) {
+	@TextInputStyle()
+	<input
+		class="text-input"
+		type="text"
+		name={ props.Name }
+		placeholder={ props.Placeholder }
+	/>
+}
+
+templ TextInputStyle() {
+	<style>
+        .text-input {
+            display: flex;
+            justify-content: center;
+            width: 100%;
+            height: 80px;
+            padding: 0 40px;
+            border-radius: 20px;
+            border: 1px solid transparent;
+            outline: 1px solid transparent;
+            background: var(--color-white);
+            font-weight: 400;
+            font-size: 16px;
+            transition: 200ms;
+            color: var(--color-gray);
+        }
+        .text-input:focus {
+            border: 1px solid var(--color-primary);
+            color: var(--color-black);
+        }
+        .text-input:focus-visible {
+            outline: 1px solid var(--color-primary);
+            color: var(--color-black);
+        }
+        .text-input:hover {
+            border: 1px solid #21665d;
+        }
+    </style>
+}
