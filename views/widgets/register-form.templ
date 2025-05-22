@@ -1,0 +1,41 @@
+package widgets
+
+import "ostkost/go-ps-hw-fiber/views/components"
+
+templ RegisterForm() {
+	@RegisterFormStyle()
+	<form
+		class="register-form__form"
+		hx-post="/api/register"
+		hx-trigger="submit"
+		hx-target="#register-form-result"
+		hx-swap="innerHTML"
+	>
+		<div class="register-form__inputs">
+			@components.TextInput(components.TextInputProps{Name: "name", Label: "Имя", Type: "text", Required: true})
+			@components.TextInput(components.TextInputProps{Name: "email", Label: "Email", Type: "email", Required: true})
+			@components.TextInput(components.TextInputProps{Name: "password", Label: "Пароль", Type: "password", Required: true})
+		</div>
+		<div id="register-form-result"></div>
+		@components.SubmitButton("Зарегистрироваться")
+	</form>
+}
+
+templ RegisterFormStyle() {
+	<style>
+        .register-form__form {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 51px;
+            width: 100%;
+            max-width: 488px;
+        }
+        .register-form__inputs {
+            display: flex;
+            flex-direction: column;
+            gap: 25px;
+            width: 100%;  
+        }
+    </style>
+}

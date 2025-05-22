@@ -1,0 +1,60 @@
+package components
+
+type TextInputProps struct {
+	Name     string
+	Label    string
+	Type     string
+	Required bool
+}
+
+templ TextInput(props TextInputProps) {
+	@TextInputStyle()
+	<div class="text-input__wrapper">
+		<label class="text-input__label" for={ props.Name }>{ props.Label }</label>
+		<input
+			class="text-input__input"
+			type={ props.Type }
+			name={ props.Name }
+			required={ props.Required }
+		/>
+	</div>
+}
+
+templ TextInputStyle() {
+	<style> 
+        .text-input__wrapper {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            width: 100%;
+        }
+        .text-input__label {
+            font-weight: 500;
+            font-size: 16px;
+            text-transform: capitalize;
+        }
+        .text-input__input {
+            width: 100%;
+            height: 48px;
+            padding: 0 16px;
+            border-radius: 12px;
+            background: #F5F5F5;
+            border: 1px solid transparent;
+            transition: 200ms;
+
+            font-weight: 400;
+            font-size: 14px;
+            line-height: 100%;
+            color: #3E3232BF;
+        }
+        .text-input__input:hover {
+            border: 1px solid #F81539BF;
+        }
+        .text-input__input:focus-visible {
+            outline: 1px solid #ff778ebf;
+        }   
+        .text-input__input:focus {
+            border: 1px solid #F81539BF;
+        }
+    </style>
+}

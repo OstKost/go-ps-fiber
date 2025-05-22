@@ -1,7 +1,9 @@
 package components
 
 templ Logo() {
-	<span class={ logoClass() }>Новости</span>
+	<a href="/" class={ logoLinkClass() }>
+		<span class={ logoClass() }>Новости</span>
+	</a>
 }
 
 css logoClass() {
@@ -13,4 +15,8 @@ css logoClass() {
 	font-size: 22px;
 	line-height: 26px;
 	color: var(--color-secondary);
+}
+
+css logoLinkClass() {
+	text-decoration: none;
 }

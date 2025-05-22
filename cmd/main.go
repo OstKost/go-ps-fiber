@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"log"
 	"ostkost/go-ps-hw-fiber/config"
+	"ostkost/go-ps-hw-fiber/internal/api"
 	"ostkost/go-ps-hw-fiber/internal/pages"
 	"ostkost/go-ps-hw-fiber/pkg/logger"
 
@@ -28,6 +29,7 @@ func main() {
 	app.Static("/public", "./public")
 
 	pages.NewPagesHandler(app)
+	api.NewApiHandler(app)
 
 	err := app.Listen(":3000")
 	if err != nil {
