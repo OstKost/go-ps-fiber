@@ -1,9 +1,10 @@
 package components
 
 type TextInputProps struct {
-	Name  string
-	Label string
-	Type  string
+	Name     string
+	Label    string
+	Type     string
+	Required bool
 }
 
 templ TextInput(props TextInputProps) {
@@ -14,6 +15,7 @@ templ TextInput(props TextInputProps) {
 			class="text-input__input"
 			type={ props.Type }
 			name={ props.Name }
+			required={ props.Required }
 		/>
 	</div>
 }

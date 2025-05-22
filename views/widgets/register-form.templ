@@ -12,9 +12,9 @@ templ RegisterForm() {
 		hx-swap="innerHTML"
 	>
 		<div class="register-form__inputs">
-			@components.TextInput(components.TextInputProps{Name: "name", Label: "Имя", Type: "text"})
-			@components.TextInput(components.TextInputProps{Name: "email", Label: "Email", Type: "text"})
-			@components.TextInput(components.TextInputProps{Name: "password", Label: "Пароль", Type: "password"})
+			@components.TextInput(components.TextInputProps{Name: "name", Label: "Имя", Type: "text", Required: true})
+			@components.TextInput(components.TextInputProps{Name: "email", Label: "Email", Type: "email", Required: true})
+			@components.TextInput(components.TextInputProps{Name: "password", Label: "Пароль", Type: "password", Required: true})
 		</div>
 		<div id="register-form-result"></div>
 		@components.SubmitButton("Зарегистрироваться")

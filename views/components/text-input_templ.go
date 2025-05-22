@@ -9,9 +9,10 @@ import "github.com/a-h/templ"
 import templruntime "github.com/a-h/templ/runtime"
 
 type TextInputProps struct {
-	Name  string
-	Label string
-	Type  string
+	Name     string
+	Label    string
+	Type     string
+	Required bool
 }
 
 func TextInput(props TextInputProps) templ.Component {
@@ -46,7 +47,7 @@ func TextInput(props TextInputProps) templ.Component {
 		var templ_7745c5c3_Var2 string
 		templ_7745c5c3_Var2, templ_7745c5c3_Err = templ.JoinStringErrs(props.Name)
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `views/components/text-input.templ`, Line: 12, Col: 51}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `views/components/text-input.templ`, Line: 13, Col: 51}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var2))
 		if templ_7745c5c3_Err != nil {
@@ -59,7 +60,7 @@ func TextInput(props TextInputProps) templ.Component {
 		var templ_7745c5c3_Var3 string
 		templ_7745c5c3_Var3, templ_7745c5c3_Err = templ.JoinStringErrs(props.Label)
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `views/components/text-input.templ`, Line: 12, Col: 67}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `views/components/text-input.templ`, Line: 13, Col: 67}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var3))
 		if templ_7745c5c3_Err != nil {
@@ -72,7 +73,7 @@ func TextInput(props TextInputProps) templ.Component {
 		var templ_7745c5c3_Var4 string
 		templ_7745c5c3_Var4, templ_7745c5c3_Err = templ.JoinStringErrs(props.Type)
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `views/components/text-input.templ`, Line: 15, Col: 20}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `views/components/text-input.templ`, Line: 16, Col: 20}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var4))
 		if templ_7745c5c3_Err != nil {
@@ -85,13 +86,26 @@ func TextInput(props TextInputProps) templ.Component {
 		var templ_7745c5c3_Var5 string
 		templ_7745c5c3_Var5, templ_7745c5c3_Err = templ.JoinStringErrs(props.Name)
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `views/components/text-input.templ`, Line: 16, Col: 20}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `views/components/text-input.templ`, Line: 17, Col: 20}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var5))
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 5, "\"></div>")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 5, "\" required=\"")
+		if templ_7745c5c3_Err != nil {
+			return templ_7745c5c3_Err
+		}
+		var templ_7745c5c3_Var6 string
+		templ_7745c5c3_Var6, templ_7745c5c3_Err = templ.JoinStringErrs(props.Required)
+		if templ_7745c5c3_Err != nil {
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `views/components/text-input.templ`, Line: 18, Col: 28}
+		}
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var6))
+		if templ_7745c5c3_Err != nil {
+			return templ_7745c5c3_Err
+		}
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 6, "\"></div>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -115,12 +129,12 @@ func TextInputStyle() templ.Component {
 			}()
 		}
 		ctx = templ.InitializeContext(ctx)
-		templ_7745c5c3_Var6 := templ.GetChildren(ctx)
-		if templ_7745c5c3_Var6 == nil {
-			templ_7745c5c3_Var6 = templ.NopComponent
+		templ_7745c5c3_Var7 := templ.GetChildren(ctx)
+		if templ_7745c5c3_Var7 == nil {
+			templ_7745c5c3_Var7 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 6, "<style> \r\n        .text-input__wrapper {\r\n            display: flex;\r\n            flex-direction: column;\r\n            gap: 8px;\r\n            width: 100%;\r\n        }\r\n        .text-input__label {\r\n            font-weight: 500;\r\n            font-size: 16px;\r\n            text-transform: capitalize;\r\n        }\r\n        .text-input__input {\r\n            width: 100%;\r\n            height: 48px;\r\n            padding: 0 16px;\r\n            border-radius: 12px;\r\n            background: #F5F5F5;\r\n            border: 1px solid transparent;\r\n            transition: 200ms;\r\n\r\n            font-weight: 400;\r\n            font-size: 14px;\r\n            line-height: 100%;\r\n            color: #3E3232BF;\r\n        }\r\n        .text-input__input:hover {\r\n            border: 1px solid #F81539BF;\r\n        }\r\n        .text-input__input:focus-visible {\r\n            outline: 1px solid #ff778ebf;\r\n        }   \r\n        .text-input__input:focus {\r\n            border: 1px solid #F81539BF;\r\n        }\r\n    </style>")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 7, "<style> \r\n        .text-input__wrapper {\r\n            display: flex;\r\n            flex-direction: column;\r\n            gap: 8px;\r\n            width: 100%;\r\n        }\r\n        .text-input__label {\r\n            font-weight: 500;\r\n            font-size: 16px;\r\n            text-transform: capitalize;\r\n        }\r\n        .text-input__input {\r\n            width: 100%;\r\n            height: 48px;\r\n            padding: 0 16px;\r\n            border-radius: 12px;\r\n            background: #F5F5F5;\r\n            border: 1px solid transparent;\r\n            transition: 200ms;\r\n\r\n            font-weight: 400;\r\n            font-size: 14px;\r\n            line-height: 100%;\r\n            color: #3E3232BF;\r\n        }\r\n        .text-input__input:hover {\r\n            border: 1px solid #F81539BF;\r\n        }\r\n        .text-input__input:focus-visible {\r\n            outline: 1px solid #ff778ebf;\r\n        }   \r\n        .text-input__input:focus {\r\n            border: 1px solid #F81539BF;\r\n        }\r\n    </style>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}

@@ -39,15 +39,15 @@ func RegisterForm() templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = components.TextInput(components.TextInputProps{Name: "name", Label: "Имя", Type: "text"}).Render(ctx, templ_7745c5c3_Buffer)
+		templ_7745c5c3_Err = components.TextInput(components.TextInputProps{Name: "name", Label: "Имя", Type: "text", Required: true}).Render(ctx, templ_7745c5c3_Buffer)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = components.TextInput(components.TextInputProps{Name: "email", Label: "Email", Type: "text"}).Render(ctx, templ_7745c5c3_Buffer)
+		templ_7745c5c3_Err = components.TextInput(components.TextInputProps{Name: "email", Label: "Email", Type: "email", Required: true}).Render(ctx, templ_7745c5c3_Buffer)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = components.TextInput(components.TextInputProps{Name: "password", Label: "Пароль", Type: "password"}).Render(ctx, templ_7745c5c3_Buffer)
+		templ_7745c5c3_Err = components.TextInput(components.TextInputProps{Name: "password", Label: "Пароль", Type: "password", Required: true}).Render(ctx, templ_7745c5c3_Buffer)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
