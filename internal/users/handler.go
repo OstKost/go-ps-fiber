@@ -45,7 +45,7 @@ func (h UserHandler) createUser(ctx *fiber.Ctx) error {
 	}
 	err := h.repo.Create(form)
 	if err != nil {
-		ctx.Status(http.StatusCreated)
+		ctx.Status(http.StatusInternalServerError)
 		return ctx.SendString(err.Error())
 	}
 	ctx.Status(http.StatusCreated)
