@@ -1,0 +1,42 @@
+package layout
+
+import (
+	"ostkost/go-ps-fiber/internal/vacancy"
+	"ostkost/go-ps-fiber/views/components"
+	"ostkost/go-ps-fiber/views/widgets"
+)
+
+templ VacancyList(vacancies []vacancy.Vacancy, pagesCount, page int) {
+	@VacancyListStyle()
+	<section class="vacancy-list__container">
+		<div class="vacancy-list__header">
+			@components.Title2("Последние вакансии")
+			@components.Title3("Найдите подходящую вакансию за пару минут!")
+		</div>
+		@widgets.VacancyList(vacancies)
+		@components.VacancyPagination(pagesCount, page)
+	</section>
+}
+
+templ VacancyListStyle() {
+	<style>
+        .vacancy-list__container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 100%;        
+            gap: 60px;
+            padding-bottom: 60px;
+        }
+        .vacancy-list__header {
+            display: flex;
+            flex-direction: column;            
+            justify-content: space-between;
+            align-items: flex-start;
+            gap: 40px;
+            padding-top: 60px;
+            width: 100%;
+            max-width: 1296px;      
+        }
+    </style>
+}

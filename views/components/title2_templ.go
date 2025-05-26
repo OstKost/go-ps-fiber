@@ -70,12 +70,10 @@ func Title2(title string) templ.Component {
 
 func title2Class() templ.CSSClass {
 	templ_7745c5c3_CSSBuilder := templruntime.GetBuilder()
-	templ_7745c5c3_CSSBuilder.WriteString(`width:100%;`)
 	templ_7745c5c3_CSSBuilder.WriteString(`margin:0;`)
 	templ_7745c5c3_CSSBuilder.WriteString(`padding:0;`)
 	templ_7745c5c3_CSSBuilder.WriteString(`font-weight:700;`)
 	templ_7745c5c3_CSSBuilder.WriteString(`font-size:50px;`)
-	templ_7745c5c3_CSSBuilder.WriteString(`text-align:center;`)
 	templ_7745c5c3_CSSBuilder.WriteString(string(templ.SanitizeCSS(`color`, templ.SafeCSSProperty("var(--color-black)"))))
 	templ_7745c5c3_CSSID := templ.CSSID(`title2Class`, templ_7745c5c3_CSSBuilder.String())
 	return templ.ComponentCSSClass{

@@ -35,7 +35,7 @@ func PostVacancyForm() templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 1, "<div id=\"post-vacancy-result\"></div><form class=\"post-vacancy-form__form\" hx-post=\"/vacancy\" hx-trigger=\"submit\" hx-target=\"#post-vacancy-result\" hx-swap=\"innerHTML swap:300ms settle:300ms\"><div class=\"post-vacancy-form__inputs\">")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 1, "<div class=\"post-vacancy-form__container\" hx-ext=\"response-targets\"><div id=\"post-vacancy-result\"></div><form class=\"post-vacancy-form__form\" hx-post=\"/vacancy\" hx-trigger=\"submit\" hx-target=\"#post-vacancy-result\" hx-target-error=\"#post-vacancy-result\" hx-swap=\"innerHTML swap:300ms settle:300ms\" hx-on::before-request=\"if(event.detail.successful) this.reset();\" hx-on::after-request=\"console.log(&#39;PostVacancy: &#39; + (event.detail.successful ? &#39;success&#39; : &#39;error&#39;));\"><div class=\"post-vacancy-form__inputs\">")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -71,7 +71,7 @@ func PostVacancyForm() templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 3, "</form>")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 3, "</form></div>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -100,7 +100,7 @@ func PostVacancyFormStyle() templ.Component {
 			templ_7745c5c3_Var2 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 4, "<style>\r\n        .post-vacancy-form__form {\r\n            display: flex;\r\n            flex-direction: column;\r\n            align-items: center;\r\n            gap: 30px;\r\n            width: 100%;\r\n        }\r\n        .post-vacancy-form__inputs {\r\n            display: grid;\r\n            grid-template-columns: 1fr 1fr;\r\n            gap: 24px 30px;\r\n            width: 100%;\r\n            max-width: 894px;\r\n        }\r\n  </style>")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 4, "<style>\r\n\t\t.post-vacancy-form__container {\r\n\t\t\t\tdisplay: flex;\r\n\t\t\t\tflex-direction: column;\r\n\t\t\t\tgap: 60px;\r\n\t\t}\r\n        .post-vacancy-form__form {\r\n            display: flex;\r\n            flex-direction: column;\r\n            align-items: center;\r\n            gap: 30px;\r\n            width: 100%;\r\n        }\r\n        .post-vacancy-form__inputs {\r\n            display: grid;\r\n            grid-template-columns: 1fr 1fr;\r\n            gap: 24px 30px;\r\n            width: 100%;\r\n            max-width: 894px;\r\n        }\r\n  </style>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}

@@ -1,11 +1,11 @@
 package main
 
 import (
-	"fmt"
 	"log"
 	"ostkost/go-ps-fiber/internal/home"
 	"ostkost/go-ps-fiber/internal/vacancy"
 	"ostkost/go-ps-fiber/pkg/config"
+	"ostkost/go-ps-fiber/pkg/database"
 	"ostkost/go-ps-fiber/pkg/logger"
 
 	"github.com/gofiber/contrib/fiberzerolog"
@@ -18,24 +18,23 @@ func main() {
 	logConfig := config.NewLogConfig()
 	dbConfig := config.NewDatabaseConfig()
 	customLogger := logger.NewLogger(logConfig)
-	// engine := html.New("./html", ".html")
-
-	fmt.Println("dbConfig:", dbConfig)
-
-	// app := fiber.New(fiber.Config{
-	// 	Views: engine,
-	// })
+	// Init Fiber App
 	app := fiber.New()
 	app.Use(fiberzerolog.New(fiberzerolog.Config{
 		Logger: customLogger,
 	}))
 	app.Use(recover.New())
-
+	// Static
 	app.Static("/public", "./public")
-
-	home.NewHandler(app)
-	vacancy.NewHandler(app, customLogger)
-
+	// Database
+	dbpool := database.CreateDbPool(dbConfig, customLogger)
+	defer dbpool.Close()
+	// Repositories
+	vacancyRepo := vacancy.NewVacancyRepository(dbpool, customLogger)
+	// Handlers
+	home.NewHandler(app, customLogger, vacancyRepo)
+	vacancy.NewHandler(app, customLogger, vacancyRepo)
+	// Init server
 	err := app.Listen(":3000")
 	if err != nil {
 		log.Fatal(err)

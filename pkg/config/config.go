@@ -1,14 +1,15 @@
 package config
 
 import (
-	"github.com/joho/godotenv"
 	"log"
 	"os"
 	"strconv"
+
+	"github.com/joho/godotenv"
 )
 
 type DatabaseConfig struct {
-	url string
+	Url string
 }
 
 type LogConfig struct {
@@ -27,7 +28,7 @@ func Init() {
 
 func NewDatabaseConfig() *DatabaseConfig {
 	return &DatabaseConfig{
-		url: getString("DATABASE_URL", ""),
+		Url: getString("DATABASE_URL", ""),
 	}
 }
 

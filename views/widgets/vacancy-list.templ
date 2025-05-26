@@ -1,0 +1,36 @@
+package widgets
+
+import (
+	"ostkost/go-ps-fiber/internal/vacancy"
+	"ostkost/go-ps-fiber/views/components"
+)
+
+templ VacancyList(vacancies []vacancy.Vacancy) {
+	@VacancyListStyle()
+	<div class="vacancy-list__vacancies">
+		for _, vacancy := range vacancies {
+			@components.VacancyCard(components.VacancyCardProps{
+				Vacancy:   vacancy.Vacancy,
+				Company:   vacancy.Company,
+				Industry:  vacancy.Industry,
+				Salary:    vacancy.Salary,
+				Location:  vacancy.Location,
+				Email:     vacancy.Email,
+				CreatedAt: vacancy.CreatedAt,
+			})
+		}
+	</div>
+}
+
+templ VacancyListStyle() {
+	<style>
+        .vacancy-list__vacancies {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+			gap: 24px;
+            width: 100%;  
+            max-width: 1296px;
+        }
+    </style>
+}

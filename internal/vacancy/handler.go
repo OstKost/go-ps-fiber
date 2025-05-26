@@ -1,6 +1,7 @@
 package vacancy
 
 import (
+	"net/http"
 	"ostkost/go-ps-fiber/pkg/tadatper"
 	"ostkost/go-ps-fiber/pkg/validator"
 	"ostkost/go-ps-fiber/views/components"
@@ -16,18 +17,36 @@ import (
 type VacancyHandler struct {
 	router       fiber.Router
 	customLogger *zerolog.Logger
+	repository   *VacancyRepository
 }
 
-func NewHandler(router fiber.Router, customLogger *zerolog.Logger) {
+func NewHandler(router fiber.Router, customLogger *zerolog.Logger, reposotiry *VacancyRepository) {
 	h := &VacancyHandler{
 		router:       router,
 		customLogger: customLogger,
+		repository:   reposotiry,
 	}
 	vacancyGroup := h.router.Group("/vacancy")
-	vacancyGroup.Post("/", h.vacancy)
+	vacancyGroup.Post("/", h.createVacancy)
+	vacancyGroup.Get("/", h.getAllVacancies)
 }
 
-func (h VacancyHandler) vacancy(ctx *fiber.Ctx) error {
+func (h VacancyHandler) getAllVacancies(ctx *fiber.Ctx) error {
+	PAGE_ITEMS := 2
+	page := ctx.QueryInt("page")
+	if page == 0 {
+		page = 1
+	}
+	offset := (page - 1) * PAGE_ITEMS
+	vacancies, err := h.repository.GetAll(PAGE_ITEMS, offset)
+	if err != nil {
+		h.customLogger.Error().Err(err).Msg("DB: Failed to get vacancies")
+		return err
+	}
+	return ctx.JSON(vacancies)
+}
+
+func (h VacancyHandler) createVacancy(ctx *fiber.Ctx) error {
 	form := PostVacancyForm{
 		Email:    ctx.FormValue("email"),
 		Vacancy:  ctx.FormValue("vacancy"),
@@ -49,14 +68,22 @@ func (h VacancyHandler) vacancy(ctx *fiber.Ctx) error {
 		&validators.StringLengthInRange{Name: "company", Field: form.Company, Min: 2, Max: 100, Message: "Название компании должно быть от 2 до 100 символов"},
 		&validators.StringLengthInRange{Name: "salary", Field: form.Salary, Min: 3, Max: 20, Message: "Зарплата должна быть от 3 до 20 символов"},
 	)
-	time.Sleep(time.Second * 2)
+	time.Sleep(time.Second * 2) // Simulate slow db
 	var component templ.Component
+	// Validation errors
 	if len(errors.Errors) > 0 {
 		msg := validator.FormatErrors(errors)
 		component = components.Notification(msg, components.NotificationError)
-		h.customLogger.Error().Msg("Post vacancy form errors")
-		return tadatper.Render(ctx, component)
+		h.customLogger.Error().Msg("Validation: Post vacancy form errors")
+		return tadatper.Render(ctx, component, http.StatusBadRequest)
 	}
+	// Db insert
+	err := h.repository.Create(form)
+	if err != nil {
+		h.customLogger.Error().Err(err).Msg("DB: Failed to create vacancy")
+		return tadatper.Render(ctx, components.Notification("Ошибка на сервере при создании вакансии", components.NotificationError), http.StatusBadRequest)
+	}
+	// Success response
 	component = components.Notification("Вакансия создана", components.NotificationSuccess)
-	return tadatper.Render(ctx, component)
+	return tadatper.Render(ctx, component, http.StatusOK)
 }

@@ -1,8 +1,9 @@
 package views
 
 import "ostkost/go-ps-fiber/views/layout"
+import "ostkost/go-ps-fiber/internal/vacancy"
 
-templ Main() {
+templ Main(vacancies []vacancy.Vacancy, pagesCount, page int) {
 	@layout.Layout(layout.LayoutProps{
 		Title:           "Найди работу своей мечты",
 		MetaDescription: "Простой поиск работы",
@@ -12,6 +13,7 @@ templ Main() {
 			@layout.HeroAction()
 		}
 		<main>
+			@layout.VacancyList(vacancies, pagesCount, page)
 			@layout.PostVacancy()
 		</main>
 	}

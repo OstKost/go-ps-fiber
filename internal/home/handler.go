@@ -1,14 +1,20 @@
 package home
 
 import (
+	"math"
+	"net/http"
+	"ostkost/go-ps-fiber/internal/vacancy"
 	"ostkost/go-ps-fiber/pkg/tadatper"
 	"ostkost/go-ps-fiber/views"
 
 	"github.com/gofiber/fiber/v2"
+	"github.com/rs/zerolog"
 )
 
 type HomeHandler struct {
-	router fiber.Router
+	router            fiber.Router
+	customLogger      *zerolog.Logger
+	vacancyRepository *vacancy.VacancyRepository
 }
 
 type User struct {
@@ -16,14 +22,32 @@ type User struct {
 	Age  int
 }
 
-func NewHandler(router fiber.Router) {
+func NewHandler(router fiber.Router, customLogger *zerolog.Logger, vacancyRepo *vacancy.VacancyRepository) {
 	h := &HomeHandler{
-		router: router,
+		router:            router,
+		customLogger:      customLogger,
+		vacancyRepository: vacancyRepo,
 	}
 	h.router.Get("/", h.home)
 }
 
 func (h HomeHandler) home(ctx *fiber.Ctx) error {
-	component := views.Main()
-	return tadatper.Render(ctx, component)
+	PAGE_ITEMS := 2
+	page := ctx.QueryInt("page")
+	if page == 0 {
+		page = 1
+	}
+	offset := (page - 1) * PAGE_ITEMS
+
+	count := h.vacancyRepository.CountAll()
+
+	vacancies, err := h.vacancyRepository.GetAll(PAGE_ITEMS, offset)
+	if err != nil {
+		h.customLogger.Error().Msg(err.Error())
+		return ctx.SendStatus(http.StatusInternalServerError)
+	}
+
+	pagesCount := int(math.Ceil(float64(count / PAGE_ITEMS)))
+	component := views.Main(vacancies, pagesCount, page)
+	return tadatper.Render(ctx, component, http.StatusOK)
 }

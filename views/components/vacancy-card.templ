@@ -1,0 +1,154 @@
+package components
+
+import (
+	"github.com/rvflash/elapsed"
+	"time"
+)
+
+type VacancyCardProps struct {
+	Vacancy   string
+	Company   string
+	Industry  string
+	Salary    string
+	Location  string
+	Email     string
+	CreatedAt time.Time
+}
+
+templ VacancyCard(props VacancyCardProps) {
+	@VacancyCardStyle()
+	{{ date := elapsed.LocalTime(props.CreatedAt, "ru") }}
+	<article class="vacancy-card">
+		<div class="vacancy-card__time">{ date }</div>
+		<div class="vacancy-card__main-info">
+			<div class="vacancy-card__logo">
+				<img src="/public/images/vacancy-logo.png" alt="logo"/>
+			</div>
+			<div class="vacancy-card__title">
+				<span class="vacancy-card__vacancy">{ props.Vacancy }</span>
+				<span class="vacancy-card__company">{ props.Company }</span>
+			</div>
+		</div>
+		<div class="vacancy-card__bottom">
+			<div class="vacancy-card__secondary-info">
+				<p class="vacancy-card__subinfo">
+					<img src="/public/icons/industry.svg" alt="industry"/>
+					<span class="vacancy-card__subinfo-text">{ props.Industry }</span>
+				</p>
+				<p class="vacancy-card__subinfo">
+					<img src="/public/icons/salary.svg" alt="salary"/>
+					<span class="vacancy-card__subinfo-text">{ props.Salary }</span>
+				</p>
+				<p class="vacancy-card__subinfo">
+					<img src="/public/icons/location.svg" alt="location"/>
+					<span class="vacancy-card__subinfo-text">{ props.Location }</span>
+				</p>
+			</div>
+			<div class="vacancy-card__actions">
+				<button class="vacancy-card__button">Откликнуться</button>
+			</div>
+		</div>
+	</article>
+}
+
+templ VacancyCardStyle() {
+	<style>
+    .vacancy-card {
+        display: flex;
+        flex-direction: column;
+
+        padding: 40px;
+        gap: 28px;
+
+        width: 100%;
+
+        background: var(--color-white);
+        box-shadow: 0px 3px 8px rgba(48, 150, 137, 0.08);
+        border-radius: 20px;
+    }
+    .vacancy-card__time {
+        width: fit-content;
+        height: 28;
+        border-radius: 8px;
+        gap: 10px;
+        padding: 8px;
+        background: #3096891A;
+        font-weight: 400;
+        font-size: 16px;
+        color: #309689;
+    }
+    .vacancy-card__main-info {
+        display: flex;        
+        height: 51px;
+        gap: 20px
+    }
+    .vacancy-card__logo {
+        width: 40px;
+        height: 40px;
+    }
+    .vacancy-card__title  {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+    }
+    .vacancy-card__vacancy {
+        font-weight: 600;
+        font-size: 28px;
+        padding: 0;
+        margin: 0;
+        height: 20px;
+        line-height: 0.7;
+    }
+    .vacancy-card__company {
+        font-weight: 400;
+        font-size: 16px;
+        padding: 0;
+        margin: 0;
+        height: 11px;
+        line-height: 0.7;
+    }
+    .vacancy-card__bottom {
+        display: flex;
+        justify-content: space-between;
+    }
+    .vacancy-card__secondary-info {
+        display: flex;
+        align-items: center;
+        margin-top: 16px;
+        height: 24px;
+        gap: 24px;
+    }
+    .vacancy-card__subinfo {
+        display: flex;
+        gap: 12px;
+    }
+    .vacancy-card__subinfo-text {
+        font-weight: 600;
+        font-size: 16px;
+        color: #6C757D;
+    }
+    .vacancy-card__actions {
+        display: flex;
+        gap: 20px;
+    }
+    .vacancy-card__button {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 40px;        
+        padding: 14px 20px;
+        margin: 0;
+        border-radius: 8px;
+        border:none;
+        background: #309689;        
+        color: white;
+        font-weight: 600;
+        font-size: 16px;
+        cursor: pointer;
+        transition: 200ms;
+    }
+    .vacancy-card__button:hover {    
+       background: #21665d;
+    }
+    </style>
+}

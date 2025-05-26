@@ -1,0 +1,55 @@
+package components
+
+import "fmt"
+
+templ VacancyPagination(pagesCount, page int) {
+	@VacancyPaginationStyle()
+	<div class="vacancy-pagination">
+		if page > 1 {
+			<a href={ templ.SafeURL(fmt.Sprintf("/?page=%d", page-1)) } class="vacancy-pagination__action">
+				<img src="/public/icons/arrow-left.svg" alt="arrow-left"/>
+				<span>Предыдущая</span>
+			</a>
+		} else {
+			<span></span>
+		}
+		if page < pagesCount {
+			<a href={ templ.SafeURL(fmt.Sprintf("/?page=%d", page+1)) } class="vacancy-pagination__action">
+				<span>Следующая</span>
+				<img src="/public/icons/arrow-right.svg" alt="arrow-right"/>
+			</a>
+		} else {
+			<span></span>
+		}
+	</div>
+}
+
+templ VacancyPaginationStyle() {
+	<style>
+        .vacancy-pagination {
+			display: flex;
+			justify-content: space-between;
+			align-items: center;
+			height: 74px;
+			width: 100%;
+			max-width: 1296px;
+			gap: 20px;
+		}
+		.vacancy-pagination__action {
+			display: flex;
+			justify-content: center;
+			align-items: center;
+			gap: 4px;
+			height: 40px;
+			padding: 0 16px;
+			cursor: pointer;	
+			text-decoration: none;
+			color: #6C757D;	
+			font-weight: 500;
+			font-size: 20px;
+		}
+		.vacancy-pagination__action:hover {
+			color: #1a2d3e;	
+		}
+    </style>
+}
