@@ -31,6 +31,18 @@ func (h UserHandler) createUser(ctx *fiber.Ctx) error {
 		Email:    ctx.FormValue("email"),
 		Password: ctx.FormValue("password"),
 	}
+	errors := validate.Validate(
+		&validators.EmailIsPresent{Name: "Email", Field: form.Email, Message: "Неправильный email"},
+		&validators.StringIsPresent{Name: "Name", Field: form.Name, Message: "Не заполнено имя"},
+		&validators.StringLengthInRange{Name: "name", Field: form.Name, Min: 2, Max: 50, Message: "Имя должно быть от 2 до 50 символов"},
+		&validators.StringIsPresent{Name: "Password", Field: form.Password, Message: "Не заполнен пароль"},
+		&validators.StringLengthInRange{Name: "password", Field: form.Password, Min: 6, Max: 20, Message: "Пароль должен быть от 6 до 20 символов"},
+	)
+	if len(errors.Errors) > 0 {
+		msg := validator.FormatErrors(errors)
+		ctx.Status(http.StatusBadRequest)
+		return ctx.SendString(msg)
+	}
 	err := h.repo.Create(form)
 	if err != nil {
 		ctx.Status(http.StatusCreated)

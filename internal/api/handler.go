@@ -66,6 +66,15 @@ func (h ApiHandler) login(ctx *fiber.Ctx) error {
 		Email:    ctx.FormValue("email"),
 		Password: ctx.FormValue("password"),
 	}
+	errors := validate.Validate(
+		&validators.EmailIsPresent{Name: "Email", Field: f.Email, Message: "Неправильный email"},
+		&validators.StringIsPresent{Name: "Password", Field: f.Password, Message: "Не заполнен пароль"},
+	)
+	if len(errors.Errors) > 0 {
+		msg := validator.FormatErrors(errors)
+		component := components.Notification(msg, components.NotificationError)
+		return tadapter.Render(ctx, component, http.StatusBadRequest)
+	}
 	user := h.userRepo.GetByEmail(f.Email)
 	if user == nil {
 		return tadapter.Render(ctx, components.Notification("Неверный email или пароль", components.NotificationError), http.StatusUnauthorized)

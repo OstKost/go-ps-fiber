@@ -6,7 +6,6 @@ import (
 	"log/slog"
 	"ostkost/go-ps-hw-fiber/pkg/types"
 
-	"github.com/jackc/pgx/v5"
 	"github.com/jackc/pgx/v5/pgxpool"
 	"golang.org/x/crypto/bcrypt"
 )
@@ -24,6 +23,10 @@ func NewUserRepository(dbpool *pgxpool.Pool, customLogger *slog.Logger) *UserRep
 }
 
 func (r *UserRepository) Create(form types.RegisterForm) error {
+	user := r.GetByEmail(form.Email)
+	if user != nil {
+		return fmt.Errorf("Email already exists")
+	}
 	query := `INSERT INTO users (email, password, name) 
 			VALUES ($1, $2, $3)`
 	hashedPassword, err := bcrypt.GenerateFromPassword([]byte(form.Password), bcrypt.DefaultCost)
@@ -42,12 +45,9 @@ func (r *UserRepository) Create(form types.RegisterForm) error {
 func (r *UserRepository) GetByEmail(email string) *types.User {
 	query := `SELECT id, email, password, name, created_at
 			FROM users
-			WHERE email = @email`
-	args := pgx.NamedArgs{
-		"email": email,
-	}
+			WHERE email = $1`
 	var user types.User
-	row := r.dbpool.QueryRow(context.Background(), query, args)
+	row := r.dbpool.QueryRow(context.Background(), query, email)
 	err := row.Scan(&user.Id, &user.Email, &user.Password, &user.Name, &user.CreatedAt)
 	if err != nil {
 		r.logger.Error(fmt.Sprintf("Failed to get user by email: %s", err.Error()))
