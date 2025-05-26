@@ -3,7 +3,10 @@ package users
 import (
 	"net/http"
 	"ostkost/go-ps-hw-fiber/pkg/types"
+	"ostkost/go-ps-hw-fiber/pkg/validator"
 
+	"github.com/gobuffalo/validate"
+	"github.com/gobuffalo/validate/validators"
 	"github.com/gofiber/fiber/v2"
 )
 
@@ -19,7 +22,7 @@ func NewUserHandler(router fiber.Router, repo *UserRepository) {
 	}
 	usersGroup := h.router.Group("/users")
 	usersGroup.Post("/", h.createUser)
-	usersGroup.Get("/", h.getByEmail)
+	usersGroup.Get("/:email", h.getByEmail)
 }
 
 func (h UserHandler) createUser(ctx *fiber.Ctx) error {
@@ -39,9 +42,18 @@ func (h UserHandler) createUser(ctx *fiber.Ctx) error {
 
 func (h UserHandler) getByEmail(ctx *fiber.Ctx) error {
 	email := ctx.Params("email")
+	errors := validate.Validate(
+		&validators.EmailIsPresent{Name: "Email", Field: email, Message: "Неправильный email"},
+	)
+	if len(errors.Errors) > 0 {
+		msg := validator.FormatErrors(errors)
+		ctx.Status(http.StatusBadRequest)
+		return ctx.SendString(msg)
+	}
 	user := h.repo.GetByEmail(email)
 	if user == nil {
-		return ctx.SendStatus(http.StatusNotFound)
+		ctx.Status(http.StatusNotFound)
+		return ctx.SendString("Пользователь не найден")
 	}
 	return ctx.JSON(user)
 }
