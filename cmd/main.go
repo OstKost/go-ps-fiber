@@ -6,6 +6,8 @@ import (
 	"ostkost/go-ps-hw-fiber/config"
 	"ostkost/go-ps-hw-fiber/internal/api"
 	"ostkost/go-ps-hw-fiber/internal/pages"
+	"ostkost/go-ps-hw-fiber/internal/users"
+	"ostkost/go-ps-hw-fiber/pkg/database"
 	"ostkost/go-ps-hw-fiber/pkg/logger"
 
 	"github.com/gofiber/fiber/v2"
@@ -23,14 +25,19 @@ func main() {
 
 	customLogger := logger.NewLogger(loggerConfig)
 	app.Use(slogfiber.New(customLogger))
-
+	// Recover
 	app.Use(recover.New())
-
+	// Static
 	app.Static("/public", "./public")
-
+	// Database
+	dbpool := database.CreateDbPool(dbConfig)
+	// Repositories
+	userRepo := users.NewUserRepository(dbpool, customLogger)
+	// Handlers
 	pages.NewPagesHandler(app)
-	api.NewApiHandler(app)
-
+	api.NewApiHandler(app, customLogger, userRepo)
+	users.NewUserHandler(app, userRepo)
+	// Init server
 	err := app.Listen(":3000")
 	if err != nil {
 		log.Fatal(err)
