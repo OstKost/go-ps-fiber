@@ -35,7 +35,7 @@ func RegisterForm() templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 1, "<form class=\"register-form__form\" hx-post=\"/api/register\" hx-trigger=\"submit\" hx-target=\"#register-form-result\" hx-swap=\"innerHTML\"><div class=\"register-form__inputs\">")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 1, "<div hx-ext=\"response-targets\" class=\"register-form__container\"><form class=\"register-form__form\" hx-post=\"/api/register\" hx-trigger=\"submit\" hx-target=\"#register-form-result\" hx-target-error=\"#register-form-result\" hx-swap=\"innerHTML\"><div class=\"register-form__inputs\">")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -59,7 +59,7 @@ func RegisterForm() templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 3, "</form>")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 3, "</form></div>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -88,7 +88,7 @@ func RegisterFormStyle() templ.Component {
 			templ_7745c5c3_Var2 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 4, "<style>\r\n        .register-form__form {\r\n            display: flex;\r\n            flex-direction: column;\r\n            align-items: center;\r\n            gap: 51px;\r\n            width: 100%;\r\n            max-width: 488px;\r\n        }\r\n        .register-form__inputs {\r\n            display: flex;\r\n            flex-direction: column;\r\n            gap: 25px;\r\n            width: 100%;  \r\n        }\r\n    </style>")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 4, "<style>\r\n\t\t.register-form__container {\r\n\t\t\tdisplay: flex;\r\n\t\t\tflex-direction: column;\r\n\t\t\talign-items: center;\r\n\t\t\twidth: 100%;\r\n\t\t}\r\n        .register-form__form {\r\n            display: flex;\r\n            flex-direction: column;\r\n            align-items: center;\r\n            gap: 51px;\r\n            width: 100%;\r\n            max-width: 488px;\r\n        }\r\n        .register-form__inputs {\r\n            display: flex;\r\n            flex-direction: column;\r\n            gap: 25px;\r\n            width: 100%;  \r\n        }\r\n    </style>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}

@@ -4,25 +4,34 @@ import "ostkost/go-ps-hw-fiber/views/components"
 
 templ RegisterForm() {
 	@RegisterFormStyle()
-	<form
-		class="register-form__form"
-		hx-post="/api/register"
-		hx-trigger="submit"
-		hx-target="#register-form-result"
-		hx-swap="innerHTML"
-	>
-		<div class="register-form__inputs">
-			@components.TextInput(components.TextInputProps{Name: "name", Label: "Имя", Type: "text", Required: true})
-			@components.TextInput(components.TextInputProps{Name: "email", Label: "Email", Type: "email", Required: true})
-			@components.TextInput(components.TextInputProps{Name: "password", Label: "Пароль", Type: "password", Required: true})
-		</div>
-		<div id="register-form-result"></div>
-		@components.SubmitButton("Зарегистрироваться")
-	</form>
+	<div hx-ext="response-targets" class="register-form__container">
+		<form
+			class="register-form__form"
+			hx-post="/api/register"
+			hx-trigger="submit"
+			hx-target="#register-form-result"
+			hx-target-error="#register-form-result"
+			hx-swap="innerHTML"
+		>
+			<div class="register-form__inputs">
+				@components.TextInput(components.TextInputProps{Name: "name", Label: "Имя", Type: "text", Required: true})
+				@components.TextInput(components.TextInputProps{Name: "email", Label: "Email", Type: "email", Required: true})
+				@components.TextInput(components.TextInputProps{Name: "password", Label: "Пароль", Type: "password", Required: true})
+			</div>
+			<div id="register-form-result"></div>
+			@components.SubmitButton("Зарегистрироваться")
+		</form>
+	</div>
 }
 
 templ RegisterFormStyle() {
 	<style>
+		.register-form__container {
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+			width: 100%;
+		}
         .register-form__form {
             display: flex;
             flex-direction: column;

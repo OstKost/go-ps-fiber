@@ -118,7 +118,7 @@ func PostActions() templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 5, "\"><button class=\"posts-actions-btn\"><svg width=\"16\" height=\"16\" viewBox=\"0 0 16 16\" fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\"><path d=\"M10 2C10.2813 2 10.5313 2.09375 10.7188 2.28125C11.125 2.65625 11.125 3.3125 10.7188 3.6875L6.4375 8L10.7188 12.2812C11.125 12.6562 11.125 13.3125 10.7188 13.6875C10.3438 14.0937 9.6875 14.0937 9.3125 13.6875L4.3125 8.6875C3.90625 8.3125 3.90625 7.65625 4.3125 7.28125L9.3125 2.28125C9.5 2.09375 9.75 2 10 2Z\" fill=\"#3E3232\" fill-opacity=\"0.5\"></path></svg> <span>Предыдущая</span></button> <button class=\"posts-actions-btn\"><span>Следующая</span> <svg width=\"16\" height=\"16\" viewBox=\"0 0 16 16\" fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\"><path d=\"M6 14C5.71875 14 5.46875 13.9062 5.28125 13.7188C4.875 13.3438 4.875 12.6875 5.28125 12.3125L9.5625 8L5.28125 3.71875C4.875 3.34375 4.875 2.6875 5.28125 2.3125C5.65625 1.90625 6.3125 1.90625 6.6875 2.3125L11.6875 7.3125C12.0938 7.6875 12.0938 8.34375 11.6875 8.71875L6.6875 13.7188C6.5 13.9062 6.25 14 6 14Z\" fill=\"#3E3232\" fill-opacity=\"0.5\"></path></svg></button></div>")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 5, "\"><button class=\"posts-actions-btn\"><img src=\"/public/icons/arrow-left-1.svg\" alt=\"arrow-left\"> <span>Предыдущая</span></button> <button class=\"posts-actions-btn\"><span>Следующая</span> <img src=\"/public/icons/arrow-right-1.svg\" alt=\"arrow-right\"></button></div>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
