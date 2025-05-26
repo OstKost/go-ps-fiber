@@ -52,7 +52,9 @@ func (h ApiHandler) register(ctx *fiber.Ctx) error {
 	// Db insert
 	err := h.userRepo.Create(f)
 	if err != nil {
-		return tadapter.Render(ctx, components.Notification("Ошибка на сервере при создании пользователя", components.NotificationError), http.StatusInternalServerError)
+		msg := fmt.Sprintf("Ошибка на сервере при создании пользователя")
+		component := components.Notification(msg, components.NotificationError)
+		return tadapter.Render(ctx, component, http.StatusInternalServerError)
 	}
 	msg := fmt.Sprintf("Регистрация успешна: %s", f.Email)
 	component := components.Notification(msg, components.NotificationSuccess)

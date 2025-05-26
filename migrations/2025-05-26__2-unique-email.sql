@@ -1,0 +1,1 @@
+ALTER TABLE news.users ADD CONSTRAINT unique_email UNIQUE (email);

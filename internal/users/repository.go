@@ -25,17 +25,13 @@ func NewUserRepository(dbpool *pgxpool.Pool, customLogger *slog.Logger) *UserRep
 
 func (r *UserRepository) Create(form types.RegisterForm) error {
 	query := `INSERT INTO users (email, password, name) 
-			VALUES (@email, @password, @name)`
+			VALUES ($1, $2, $3)`
 	hashedPassword, err := bcrypt.GenerateFromPassword([]byte(form.Password), bcrypt.DefaultCost)
 	if err != nil {
 		r.logger.Error(fmt.Sprintf("Failed to hash password: %s", err.Error()))
+		return err
 	}
-	args := pgx.NamedArgs{
-		"email":    form.Email,
-		"password": string(hashedPassword),
-		"name":     form.Name,
-	}
-	_, err = r.dbpool.Exec(context.Background(), query, args)
+	_, err = r.dbpool.Exec(context.Background(), query, form.Email, string(hashedPassword), form.Name)
 	if err != nil {
 		r.logger.Error(fmt.Sprintf("Failed to create user: %s", err.Error()))
 		return err
@@ -51,7 +47,11 @@ func (r *UserRepository) GetByEmail(email string) *types.User {
 		"email": email,
 	}
 	var user types.User
-	r.dbpool.QueryRow(context.Background(), query, args).
-		Scan(&user.Id, &user.Email, &user.Password, &user.Name, &user.CreatedAt)
+	row := r.dbpool.QueryRow(context.Background(), query, args)
+	err := row.Scan(&user.Id, &user.Email, &user.Password, &user.Name, &user.CreatedAt)
+	if err != nil {
+		r.logger.Error(fmt.Sprintf("Failed to get user by email: %s", err.Error()))
+		return nil
+	}
 	return &user
 }

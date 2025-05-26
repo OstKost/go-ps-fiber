@@ -30,9 +30,11 @@ func (h UserHandler) createUser(ctx *fiber.Ctx) error {
 	}
 	err := h.repo.Create(form)
 	if err != nil {
-		return err
+		ctx.Status(http.StatusCreated)
+		return ctx.SendString(err.Error())
 	}
-	return ctx.SendStatus(http.StatusCreated)
+	ctx.Status(http.StatusCreated)
+	return ctx.SendString(form.Email)
 }
 
 func (h UserHandler) getByEmail(ctx *fiber.Ctx) error {
