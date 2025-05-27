@@ -101,6 +101,7 @@ func (h ApiHandler) login(ctx *fiber.Ctx) error {
 	if user == nil {
 		return tadapter.Render(ctx, components.Notification("Неверный email или пароль", components.NotificationError), http.StatusUnauthorized)
 	}
+	// Проверка пароля
 	err := bcrypt.CompareHashAndPassword([]byte(user.Password), []byte(f.Password))
 	if err != nil {
 		return tadapter.Render(ctx, components.Notification("Неверный email или пароль", components.NotificationError), http.StatusUnauthorized)
