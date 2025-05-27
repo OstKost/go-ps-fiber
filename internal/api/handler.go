@@ -105,10 +105,12 @@ func (h ApiHandler) login(ctx *fiber.Ctx) error {
 		return tadapter.Render(ctx, components.Notification("Неверный email или пароль", components.NotificationError), http.StatusUnauthorized)
 	}
 	// Check hashed password with form password
+
 	err := bcrypt.CompareHashAndPassword([]byte(user.Password), []byte(f.Password))
 	if err != nil {
 		return tadapter.Render(ctx, components.Notification("Неверный email или пароль", components.NotificationError), http.StatusUnauthorized)
 	}
+
 	// Session
 	session, err := sess.GetSession(ctx, h.sessionStore, h.CustomLogger)
 	if err != nil {
