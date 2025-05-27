@@ -123,10 +123,9 @@ func (h ApiHandler) logout(ctx *fiber.Ctx) error {
 	if err != nil {
 		return tadapter.Render(ctx, components.Notification("Ошибка получения сессии", components.NotificationError), http.StatusInternalServerError)
 	}
-	session.Destroy()
-	err = sess.SaveSession(session, h.CustomLogger)
+	err = session.Destroy()
 	if err != nil {
-		return tadapter.Render(ctx, components.Notification("Ошибка сохранения сессии", components.NotificationError), http.StatusInternalServerError)
+		return tadapter.Render(ctx, components.Notification("Ошибка очистки сессии", components.NotificationError), http.StatusInternalServerError)
 	}
 	ctx.Response().Header.Add("Hx-Redirect", "/")
 	return ctx.Redirect("/", http.StatusOK)
