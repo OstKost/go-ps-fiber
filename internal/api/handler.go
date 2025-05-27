@@ -13,6 +13,7 @@ import (
 	"github.com/gobuffalo/validate"
 	"github.com/gobuffalo/validate/validators"
 	"github.com/gofiber/fiber/v2"
+	s "github.com/gofiber/fiber/v2/middleware/session"
 	"golang.org/x/crypto/bcrypt"
 )
 
@@ -20,17 +21,20 @@ type ApiHandler struct {
 	router       fiber.Router
 	CustomLogger *slog.Logger
 	userRepo     *users.UserRepository
+	session      *s.Store
 }
 
-func NewApiHandler(router fiber.Router, customLogger *slog.Logger, userRepo *users.UserRepository) {
+func NewApiHandler(router fiber.Router, customLogger *slog.Logger, userRepo *users.UserRepository, session *s.Store) {
 	h := &ApiHandler{
 		router:       router,
 		CustomLogger: customLogger,
 		userRepo:     userRepo,
+		session:      session,
 	}
 	apiGroup := h.router.Group("/api")
 	apiGroup.Post("/register", h.register)
 	apiGroup.Post("/login", h.login)
+	apiGroup.Post("/logout", h.logout)
 }
 
 func (h ApiHandler) register(ctx *fiber.Ctx) error {
@@ -56,9 +60,26 @@ func (h ApiHandler) register(ctx *fiber.Ctx) error {
 		component := components.Notification(msg, components.NotificationError)
 		return tadapter.Render(ctx, component, http.StatusInternalServerError)
 	}
-	msg := fmt.Sprintf("Регистрация успешна: %s", f.Email)
-	component := components.Notification(msg, components.NotificationSuccess)
-	return tadapter.Render(ctx, component, http.StatusCreated)
+	user := h.userRepo.GetByEmail(f.Email)
+	if user == nil {
+		return tadapter.Render(ctx, components.Notification("Ошибка получения пользователя", components.NotificationError), http.StatusInternalServerError)
+	}
+	// Session
+	session, err := h.session.Get(ctx)
+	if err != nil {
+		h.CustomLogger.Error("Failed to get session")
+		return tadapter.Render(ctx, components.Notification("Ошибка получения сессии", components.NotificationError), http.StatusInternalServerError)
+	}
+	session.Set("email", f.Email)
+	session.Set("userId", user.Id)
+	session.Set("name", user.Name)
+	err = session.Save()
+	if err != nil {
+		h.CustomLogger.Error("Failed to save session")
+		return tadapter.Render(ctx, components.Notification("Ошибка сохранения сессии", components.NotificationError), http.StatusInternalServerError)
+	}
+	ctx.Response().Header.Add("Hx-Redirect", "/")
+	return ctx.Redirect("/", http.StatusOK)
 }
 
 func (h ApiHandler) login(ctx *fiber.Ctx) error {
@@ -83,5 +104,35 @@ func (h ApiHandler) login(ctx *fiber.Ctx) error {
 	if err != nil {
 		return tadapter.Render(ctx, components.Notification("Неверный email или пароль", components.NotificationError), http.StatusUnauthorized)
 	}
-	return ctx.SendStatus(http.StatusOK)
+	session, err := h.session.Get(ctx)
+	if err != nil {
+		h.CustomLogger.Error("Failed to get session")
+		return tadapter.Render(ctx, components.Notification("Ошибка получения сессии", components.NotificationError), http.StatusInternalServerError)
+	}
+	session.Set("email", f.Email)
+	session.Set("userId", user.Id)
+	session.Set("name", user.Name)
+	err = session.Save()
+	if err != nil {
+		h.CustomLogger.Error("Failed to save session")
+		return tadapter.Render(ctx, components.Notification("Ошибка сохранения сессии", components.NotificationError), http.StatusInternalServerError)
+	}
+	ctx.Response().Header.Add("Hx-Redirect", "/")
+	return ctx.Redirect("/", http.StatusOK)
+}
+
+func (h ApiHandler) logout(ctx *fiber.Ctx) error {
+	session, err := h.session.Get(ctx)
+	if err != nil {
+		h.CustomLogger.Error("Failed to get session")
+		return ctx.Status(http.StatusInternalServerError).SendString("Ошибка получения сессии")
+	}
+	session.Destroy()
+	err = session.Save()
+	if err != nil {
+		h.CustomLogger.Error("Failed to destroy session")
+		return ctx.Status(http.StatusInternalServerError).SendString("Ошибка удаления сессии")
+	}
+	ctx.Response().Header.Add("Hx-Redirect", "/")
+	return ctx.Redirect("/", http.StatusOK)
 }
