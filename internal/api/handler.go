@@ -48,6 +48,8 @@ func (h ApiHandler) register(ctx *fiber.Ctx) error {
 		&validators.EmailIsPresent{Name: "Email", Field: f.Email, Message: "Неправильный email"},
 		&validators.StringIsPresent{Name: "Password", Field: f.Password, Message: "Не заполнен пароль"},
 		&validators.StringIsPresent{Name: "Name", Field: f.Name, Message: "Не заполнено имя"},
+		&validators.StringLengthInRange{Name: "name", Field: f.Name, Min: 2, Max: 50, Message: "Имя должно быть от 2 до 50 символов"},
+		&validators.StringLengthInRange{Name: "password", Field: f.Password, Min: 6, Max: 20, Message: "Пароль должен быть от 6 до 20 символов"},
 	)
 	if len(errors.Errors) > 0 {
 		msg := validator.FormatErrors(errors)

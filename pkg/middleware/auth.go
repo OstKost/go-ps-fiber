@@ -9,7 +9,8 @@ func AuthMiddleware(store *session.Store) fiber.Handler {
 	return func(ctx *fiber.Ctx) error {
 		sess, err := store.Get(ctx)
 		if err != nil {
-			panic(err)
+			ctx.Status(500).SendString("Ошибка получения сессии")
+			return ctx.Next()
 		}
 		userId := 0
 		userName := ""
