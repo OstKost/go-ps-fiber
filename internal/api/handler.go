@@ -92,6 +92,7 @@ func (h ApiHandler) login(ctx *fiber.Ctx) error {
 	errors := validate.Validate(
 		&validators.EmailIsPresent{Name: "Email", Field: f.Email, Message: "Неправильный email"},
 		&validators.StringIsPresent{Name: "Password", Field: f.Password, Message: "Не заполнен пароль"},
+		&validators.StringLengthInRange{Name: "password", Field: f.Password, Min: 6, Max: 20, Message: "Пароль должен быть от 6 до 20 символов"},
 	)
 	if len(errors.Errors) > 0 {
 		msg := validator.FormatErrors(errors)
