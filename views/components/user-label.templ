@@ -1,0 +1,39 @@
+package components
+
+type UserLabelProps struct {
+	Src  string
+	Name string
+}
+
+templ UserLabel(props UserLabelProps) {
+	@UserLabelStyle()
+	<a class="user-label" hx-post="/api/logout" hx-trigger="click">
+		<div class="user-label">
+			<img class="user-label__img" src={ props.Src }/>
+			<p class="user-label__name">{ props.Name }</p>
+			<img src="/public/icons/arrow-down.svg"/>
+		</div>
+	</a>
+}
+
+templ UserLabelStyle() {
+	<style>
+		.user-label {
+			display: flex;
+			align-items: center;
+			gap: 8px;
+			cursor: pointer;
+		}
+		.user-label__img {
+			width: 48px;
+			height: 48px;
+			border-radius: 12px;
+		}
+		.user-label__name {
+			font-weight: 500;
+			font-size: 16px;
+			text-transform: capitalize;
+			color: var(--color-black);
+		}		
+	</style>
+}

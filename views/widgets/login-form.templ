@@ -1,0 +1,49 @@
+package widgets
+
+import "ostkost/go-ps-hw-fiber/views/components"
+
+templ LoginForm() {
+	@LoginFormStyle()
+	<div hx-ext="response-targets" class="login-form__container">
+		<form
+			class="login-form__form"
+			hx-post="/api/login"
+			hx-trigger="submit"
+			hx-target="#login-form-result"
+			hx-target-error="#login-form-result"
+			hx-swap="innerHTML"
+		>
+			<div class="login-form__inputs">
+				@components.TextInput(components.TextInputProps{Name: "email", Label: "Email", Type: "email", Required: true})
+				@components.TextInput(components.TextInputProps{Name: "password", Label: "Пароль", Type: "password", Required: true})
+			</div>
+			<div id="login-form-result"></div>
+			@components.SubmitButton("Войти")
+		</form>
+	</div>
+}
+
+templ LoginFormStyle() {
+	<style>
+		.login-form__container {
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+			width: 100%;
+		}
+        .login-form__form {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 51px;
+            width: 100%;
+            max-width: 488px;
+        }
+        .login-form__inputs {
+            display: flex;
+            flex-direction: column;
+            gap: 25px;
+            width: 100%;  
+        }
+    </style>
+}

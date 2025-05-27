@@ -9,10 +9,14 @@ import (
 	"ostkost/go-ps-hw-fiber/internal/users"
 	"ostkost/go-ps-hw-fiber/pkg/database"
 	"ostkost/go-ps-hw-fiber/pkg/logger"
+	"ostkost/go-ps-hw-fiber/pkg/middleware"
+	"time"
 
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/fiber/v2/middleware/recover"
-	slogfiber "github.com/samber/slog-fiber"
+	"github.com/gofiber/fiber/v2/middleware/session"
+	"github.com/gofiber/storage/postgres/v3"
+	sf "github.com/samber/slog-fiber"
 )
 
 func main() {
@@ -24,18 +28,28 @@ func main() {
 	app := fiber.New()
 
 	customLogger := logger.NewLogger(loggerConfig)
-	app.Use(slogfiber.New(customLogger))
+	app.Use(sf.New(customLogger))
 	// Recover
 	app.Use(recover.New())
 	// Static
 	app.Static("/public", "./public")
 	// Database
 	dbpool := database.CreateDbPool(dbConfig)
+	storage := postgres.New(postgres.Config{
+		DB:         dbpool,
+		Table:      "news.sessions",
+		Reset:      false,
+		GCInterval: 10 * time.Second,
+	})
+	sessionStore := session.New(session.Config{
+		Storage: storage,
+	})
+	app.Use(middleware.AuthMiddleware(sessionStore))
 	// Repositories
 	userRepo := users.NewUserRepository(dbpool, customLogger)
 	// Handlers
 	pages.NewPagesHandler(app)
-	api.NewApiHandler(app, customLogger, userRepo)
+	api.NewApiHandler(app, customLogger, userRepo, sessionStore)
 	users.NewUserHandler(app, userRepo)
 	// Init server
 	err := app.Listen(":3000")

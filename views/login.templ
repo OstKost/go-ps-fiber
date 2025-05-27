@@ -6,21 +6,21 @@ import (
 	"ostkost/go-ps-hw-fiber/views/widgets"
 )
 
-templ Register() {
+templ Login() {
 	@layout.Layout(layout.LayoutProps{
-		Title:           "Register",
-		MetaDescription: "Register page",
+		Title:           "Login",
+		MetaDescription: "Login page",
 	}) {
 		@layout.Header()
-		<main class={ MainRegisterStyle() }>
-			@components.TitleSection("Регистрация на сайте")
-			@widgets.RegisterForm()
+		<main class={ MainLoginStyle() }>
+			@components.TitleSection("Вход на сайт")
+			@widgets.LoginForm()
 		</main>
 		@layout.Footer()
 	}
 }
 
-css MainRegisterStyle() {
+css MainLoginStyle() {
 	display: flex;
 	flex-direction: column;
 	align-items: center;

@@ -14,7 +14,7 @@ import (
 	"ostkost/go-ps-hw-fiber/views/widgets"
 )
 
-func Register() templ.Component {
+func Login() templ.Component {
 	return templruntime.GeneratedTemplate(func(templ_7745c5c3_Input templruntime.GeneratedComponentInput) (templ_7745c5c3_Err error) {
 		templ_7745c5c3_W, ctx := templ_7745c5c3_Input.Writer, templ_7745c5c3_Input.Context
 		if templ_7745c5c3_CtxErr := ctx.Err(); templ_7745c5c3_CtxErr != nil {
@@ -55,7 +55,7 @@ func Register() templ.Component {
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			var templ_7745c5c3_Var3 = []any{MainRegisterStyle()}
+			var templ_7745c5c3_Var3 = []any{MainLoginStyle()}
 			templ_7745c5c3_Err = templ.RenderCSSItems(ctx, templ_7745c5c3_Buffer, templ_7745c5c3_Var3...)
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
@@ -67,7 +67,7 @@ func Register() templ.Component {
 			var templ_7745c5c3_Var4 string
 			templ_7745c5c3_Var4, templ_7745c5c3_Err = templ.JoinStringErrs(templ.CSSClasses(templ_7745c5c3_Var3).String())
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `views/register.templ`, Line: 1, Col: 0}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `views/login.templ`, Line: 1, Col: 0}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var4))
 			if templ_7745c5c3_Err != nil {
@@ -77,11 +77,11 @@ func Register() templ.Component {
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			templ_7745c5c3_Err = components.TitleSection("Регистрация на сайте").Render(ctx, templ_7745c5c3_Buffer)
+			templ_7745c5c3_Err = components.TitleSection("Вход на сайт").Render(ctx, templ_7745c5c3_Buffer)
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			templ_7745c5c3_Err = widgets.RegisterForm().Render(ctx, templ_7745c5c3_Buffer)
+			templ_7745c5c3_Err = widgets.LoginForm().Render(ctx, templ_7745c5c3_Buffer)
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
@@ -96,8 +96,8 @@ func Register() templ.Component {
 			return nil
 		})
 		templ_7745c5c3_Err = layout.Layout(layout.LayoutProps{
-			Title:           "Register",
-			MetaDescription: "Register page",
+			Title:           "Login",
+			MetaDescription: "Login page",
 		}).Render(templ.WithChildren(ctx, templ_7745c5c3_Var2), templ_7745c5c3_Buffer)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
@@ -106,7 +106,7 @@ func Register() templ.Component {
 	})
 }
 
-func MainRegisterStyle() templ.CSSClass {
+func MainLoginStyle() templ.CSSClass {
 	templ_7745c5c3_CSSBuilder := templruntime.GetBuilder()
 	templ_7745c5c3_CSSBuilder.WriteString(`display:flex;`)
 	templ_7745c5c3_CSSBuilder.WriteString(`flex-direction:column;`)
@@ -114,7 +114,7 @@ func MainRegisterStyle() templ.CSSClass {
 	templ_7745c5c3_CSSBuilder.WriteString(`width:100%;`)
 	templ_7745c5c3_CSSBuilder.WriteString(`padding-top:113px;`)
 	templ_7745c5c3_CSSBuilder.WriteString(`padding-bottom:158px;`)
-	templ_7745c5c3_CSSID := templ.CSSID(`MainRegisterStyle`, templ_7745c5c3_CSSBuilder.String())
+	templ_7745c5c3_CSSID := templ.CSSID(`MainLoginStyle`, templ_7745c5c3_CSSBuilder.String())
 	return templ.ComponentCSSClass{
 		ID:    templ_7745c5c3_CSSID,
 		Class: templ.SafeCSS(`.` + templ_7745c5c3_CSSID + `{` + templ_7745c5c3_CSSBuilder.String() + `}`),
