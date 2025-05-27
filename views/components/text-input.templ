@@ -3,13 +3,14 @@ package components
 type TextInputProps struct {
 	Name        string
 	Placeholder string
+	Type        string
 }
 
 templ TextInput(props TextInputProps) {
 	@TextInputStyle()
 	<input
 		class="text-input"
-		type="text"
+		type={ props.Type }
 		name={ props.Name }
 		placeholder={ props.Placeholder }
 	/>

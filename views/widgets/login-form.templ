@@ -1,0 +1,37 @@
+package widgets
+
+import "ostkost/go-ps-fiber/views/components"
+
+templ LoginForm() {
+	<div hx-ext="response-targets">
+		<div id="login-result" class={ notificationClass() }></div>
+		<form
+			class={ loginFormClass() }
+			hx-post="/api/signin"
+			hx-trigger="submit"
+			hx-target="#login-result"
+			hx-target-error="#login-result"
+			hx-swap="innerHTML swap:300ms settle:300ms"
+			hx-on::before-request="if(event.detail.successful) this.reset();"
+			hx-on::after-request="console.log('PostVacancy: ' + (event.detail.successful ? 'success' : 'error'));"
+		>
+			@components.TextInput(components.TextInputProps{Placeholder: "Email", Name: "email", Type: "email"})
+			@components.TextInput(components.TextInputProps{Placeholder: "Пароль", Name: "password", Type: "password"})
+			@components.SubmitButton(components.SubmitButtonProps{Text: "Войти на сайт"})
+		</form>
+	</div>
+}
+
+css loginFormClass() {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	gap: 30px;
+	width: 100%;
+	max-width: 523px;
+	margin: 0 auto;
+}
+
+css notificationClass() {
+	margin-bottom: 20px;
+}

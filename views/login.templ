@@ -1,0 +1,32 @@
+package views
+
+import (
+	"ostkost/go-ps-fiber/views/components"
+	"ostkost/go-ps-fiber/views/layout"
+	"ostkost/go-ps-fiber/views/widgets"
+)
+
+templ Login() {
+	@layout.Layout(layout.LayoutProps{
+		Title:           "Вход на сайт",
+		MetaDescription: "Войти на сайт поиска работы",
+	}) {
+		@layout.Hero() {
+			@layout.Menu()
+			<main>
+				@MainStyle()
+				@components.Title(components.TitleProps{Title: "Вход на сайт"})
+				@components.Subtitle("Войдите под своей учётной записью")
+				@widgets.LoginForm()
+			</main>
+		}
+	}
+}
+
+templ MainStyle() {
+	<style>
+		main {
+			padding-bottom: 160px;
+		}
+	</style>
+}

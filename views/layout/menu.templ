@@ -5,14 +5,19 @@ import "ostkost/go-ps-fiber/views/components"
 templ Menu() {
 	@MenuStyle()
 	<nav class="menu">
-		<div class="menu__logo">
+		<a class="menu__logo" href="/">
 			<img class="menu__svg" src="/public/icons/logo.svg" alt="logo"/>
 			<span>Моя работа</span>
-		</div>
+		</a>
 		<div class="menu__links">
-			@components.LinkButton(components.LinkButtonProps{Text: "Войти", Href: "#"})
-			@components.LinkButton(components.LinkButtonProps{Text: "Зарегистрироваться", Href: "/register"})
-			<a href="#" class="menu__register">Зарегистрироваться</a>
+			{{ email, _ := ctx.Value("email").(string) }}
+			if email == "" {
+				@components.LinkButton(components.LinkButtonProps{Text: "Войти", Href: "/login"})
+				<a href="#" class="menu__register">Зарегистрироваться</a>
+			} else {
+				<span>{ email }</span>
+				@components.LinkButton(components.LinkButtonProps{Text: "Выйти", HxGet: "/api/signout", HxTrigger: "click"})
+			}
 		</div>
 	</nav>
 }
@@ -36,6 +41,7 @@ templ MenuStyle() {
             font-size: 20px;
             line-height: 27px;
             color: #FFFFFF;
+            text-decoration: none;
         }
          .menu__svg {
             height: 25px;

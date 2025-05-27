@@ -17,12 +17,12 @@ templ PostVacancyForm() {
 			hx-on::after-request="console.log('PostVacancy: ' + (event.detail.successful ? 'success' : 'error'));"
 		>
 			<div class="post-vacancy-form__inputs">
-				@components.TextInput(components.TextInputProps{Name: "vacancy", Placeholder: "Должность"})
-				@components.TextInput(components.TextInputProps{Name: "company", Placeholder: "Название компании"})
-				@components.TextInput(components.TextInputProps{Name: "industry", Placeholder: "Сфера компаниии"})
-				@components.TextInput(components.TextInputProps{Name: "salary", Placeholder: "Заработная плата"})
-				@components.TextInput(components.TextInputProps{Name: "location", Placeholder: "Расположение"})
-				@components.TextInput(components.TextInputProps{Name: "email", Placeholder: "Контактный email"})
+				@components.TextInput(components.TextInputProps{Name: "vacancy", Placeholder: "Должность", Type: "text"})
+				@components.TextInput(components.TextInputProps{Name: "company", Placeholder: "Название компании", Type: "text"})
+				@components.TextInput(components.TextInputProps{Name: "industry", Placeholder: "Сфера компаниии", Type: "text"})
+				@components.TextInput(components.TextInputProps{Name: "salary", Placeholder: "Заработная плата", Type: "number"})
+				@components.TextInput(components.TextInputProps{Name: "location", Placeholder: "Расположение", Type: "text"})
+				@components.TextInput(components.TextInputProps{Name: "email", Placeholder: "Контактный email", Type: "email"})
 			</div>
 			@components.SubmitButton(components.SubmitButtonProps{Text: "Опубликовать"})
 		</form>

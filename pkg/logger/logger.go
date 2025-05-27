@@ -1,9 +1,10 @@
 package logger
 
 import (
-	"github.com/rs/zerolog"
 	"os"
 	"ostkost/go-ps-fiber/pkg/config"
+
+	"github.com/rs/zerolog"
 )
 
 func NewLogger(config *config.LogConfig) *zerolog.Logger {

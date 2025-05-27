@@ -1,12 +1,31 @@
 package components
 
 type LinkButtonProps struct {
-	Text string
-	Href string
+	Text      string
+	Href      string
+	HxTrigger string
+	HxGet     string
+	HxPost    string
 }
 
 templ LinkButton(props LinkButtonProps) {
-	<a href={ templ.SafeURL(props.Href) } class={ linkButtonClass() }>{ props.Text }</a>
+	<a
+		class={ linkButtonClass() }
+		if props.Href != "" {
+			href={ templ.SafeURL(props.Href) }
+		}
+		if props.HxTrigger != "" {
+			hx-trigger={ props.HxTrigger }
+		}
+		if props.HxGet != "" {
+			hx-get={ props.HxGet }
+		}
+		if props.HxPost != "" {
+			hx-post={ props.HxPost }
+		}
+	>
+		{ props.Text }
+	</a>
 }
 
 css linkButtonClass() {
@@ -21,8 +40,5 @@ css linkButtonClass() {
 	color: var(--color-white);
 	text-decoration: none;
 	transition: 200ms;
-}
-
-css linkButtonClassHover() {
-	background: #adadad;
+	cursor: pointer;
 }

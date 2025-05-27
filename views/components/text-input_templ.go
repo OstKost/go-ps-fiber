@@ -11,6 +11,7 @@ import templruntime "github.com/a-h/templ/runtime"
 type TextInputProps struct {
 	Name        string
 	Placeholder string
+	Type        string
 }
 
 func TextInput(props TextInputProps) templ.Component {
@@ -38,12 +39,12 @@ func TextInput(props TextInputProps) templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 1, "<input class=\"text-input\" type=\"text\" name=\"")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 1, "<input class=\"text-input\" type=\"")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
 		var templ_7745c5c3_Var2 string
-		templ_7745c5c3_Var2, templ_7745c5c3_Err = templ.JoinStringErrs(props.Name)
+		templ_7745c5c3_Var2, templ_7745c5c3_Err = templ.JoinStringErrs(props.Type)
 		if templ_7745c5c3_Err != nil {
 			return templ.Error{Err: templ_7745c5c3_Err, FileName: `views/components/text-input.templ`, Line: 13, Col: 19}
 		}
@@ -51,20 +52,33 @@ func TextInput(props TextInputProps) templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 2, "\" placeholder=\"")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 2, "\" name=\"")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
 		var templ_7745c5c3_Var3 string
-		templ_7745c5c3_Var3, templ_7745c5c3_Err = templ.JoinStringErrs(props.Placeholder)
+		templ_7745c5c3_Var3, templ_7745c5c3_Err = templ.JoinStringErrs(props.Name)
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `views/components/text-input.templ`, Line: 14, Col: 33}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `views/components/text-input.templ`, Line: 14, Col: 19}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var3))
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 3, "\">")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 3, "\" placeholder=\"")
+		if templ_7745c5c3_Err != nil {
+			return templ_7745c5c3_Err
+		}
+		var templ_7745c5c3_Var4 string
+		templ_7745c5c3_Var4, templ_7745c5c3_Err = templ.JoinStringErrs(props.Placeholder)
+		if templ_7745c5c3_Err != nil {
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `views/components/text-input.templ`, Line: 15, Col: 33}
+		}
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var4))
+		if templ_7745c5c3_Err != nil {
+			return templ_7745c5c3_Err
+		}
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 4, "\">")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -88,12 +102,12 @@ func TextInputStyle() templ.Component {
 			}()
 		}
 		ctx = templ.InitializeContext(ctx)
-		templ_7745c5c3_Var4 := templ.GetChildren(ctx)
-		if templ_7745c5c3_Var4 == nil {
-			templ_7745c5c3_Var4 = templ.NopComponent
+		templ_7745c5c3_Var5 := templ.GetChildren(ctx)
+		if templ_7745c5c3_Var5 == nil {
+			templ_7745c5c3_Var5 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 4, "<style>\r\n        .text-input {\r\n            display: flex;\r\n            justify-content: center;\r\n            width: 100%;\r\n            height: 80px;\r\n            padding: 0 40px;\r\n            border-radius: 20px;\r\n            border: 1px solid transparent;\r\n            outline: 1px solid transparent;\r\n            background: var(--color-white);\r\n            font-weight: 400;\r\n            font-size: 16px;\r\n            transition: 200ms;\r\n            color: var(--color-gray);\r\n        }\r\n        .text-input:focus {\r\n            border: 1px solid var(--color-primary);\r\n            color: var(--color-black);\r\n        }\r\n        .text-input:focus-visible {\r\n            outline: 1px solid var(--color-primary);\r\n            color: var(--color-black);\r\n        }\r\n        .text-input:hover {\r\n            border: 1px solid #21665d;\r\n        }\r\n    </style>")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 5, "<style>\r\n        .text-input {\r\n            display: flex;\r\n            justify-content: center;\r\n            width: 100%;\r\n            height: 80px;\r\n            padding: 0 40px;\r\n            border-radius: 20px;\r\n            border: 1px solid transparent;\r\n            outline: 1px solid transparent;\r\n            background: var(--color-white);\r\n            font-weight: 400;\r\n            font-size: 16px;\r\n            transition: 200ms;\r\n            color: var(--color-gray);\r\n        }\r\n        .text-input:focus {\r\n            border: 1px solid var(--color-primary);\r\n            color: var(--color-black);\r\n        }\r\n        .text-input:focus-visible {\r\n            outline: 1px solid var(--color-primary);\r\n            color: var(--color-black);\r\n        }\r\n        .text-input:hover {\r\n            border: 1px solid #21665d;\r\n        }\r\n    </style>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}

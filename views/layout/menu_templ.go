@@ -35,19 +35,44 @@ func Menu() templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 1, "<nav class=\"menu\"><div class=\"menu__logo\"><img class=\"menu__svg\" src=\"/public/icons/logo.svg\" alt=\"logo\"> <span>Моя работа</span></div><div class=\"menu__links\">")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 1, "<nav class=\"menu\"><a class=\"menu__logo\" href=\"/\"><img class=\"menu__svg\" src=\"/public/icons/logo.svg\" alt=\"logo\"> <span>Моя работа</span></a><div class=\"menu__links\">")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = components.LinkButton(components.LinkButtonProps{Text: "Войти", Href: "#"}).Render(ctx, templ_7745c5c3_Buffer)
-		if templ_7745c5c3_Err != nil {
-			return templ_7745c5c3_Err
+		email, _ := ctx.Value("email").(string)
+		if email == "" {
+			templ_7745c5c3_Err = components.LinkButton(components.LinkButtonProps{Text: "Войти", Href: "/login"}).Render(ctx, templ_7745c5c3_Buffer)
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
+			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 2, " <a href=\"#\" class=\"menu__register\">Зарегистрироваться</a>")
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
+		} else {
+			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 3, "<span>")
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
+			var templ_7745c5c3_Var2 string
+			templ_7745c5c3_Var2, templ_7745c5c3_Err = templ.JoinStringErrs(email)
+			if templ_7745c5c3_Err != nil {
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `views/layout/menu.templ`, Line: 18, Col: 17}
+			}
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var2))
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
+			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 4, "</span>")
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
+			templ_7745c5c3_Err = components.LinkButton(components.LinkButtonProps{Text: "Выйти", HxGet: "/api/signout", HxTrigger: "click"}).Render(ctx, templ_7745c5c3_Buffer)
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
 		}
-		templ_7745c5c3_Err = components.LinkButton(components.LinkButtonProps{Text: "Зарегистрироваться", Href: "/register"}).Render(ctx, templ_7745c5c3_Buffer)
-		if templ_7745c5c3_Err != nil {
-			return templ_7745c5c3_Err
-		}
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 2, "<a href=\"#\" class=\"menu__register\">Зарегистрироваться</a></div></nav>")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 5, "</div></nav>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -71,12 +96,12 @@ func MenuStyle() templ.Component {
 			}()
 		}
 		ctx = templ.InitializeContext(ctx)
-		templ_7745c5c3_Var2 := templ.GetChildren(ctx)
-		if templ_7745c5c3_Var2 == nil {
-			templ_7745c5c3_Var2 = templ.NopComponent
+		templ_7745c5c3_Var3 := templ.GetChildren(ctx)
+		if templ_7745c5c3_Var3 == nil {
+			templ_7745c5c3_Var3 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 3, "<style>\r\n        .menu {\r\n            display: flex;\r\n            justify-content: space-between;\r\n            width: 100%;\r\n            height: 80px;\r\n            padding: 20px 77px;\r\n\r\n        }\r\n        .menu__logo {\r\n            display: flex;\r\n            justify-content: flex-start;\r\n            gap: 10px;\r\n            font-style: normal;\r\n            font-weight: 600;\r\n            font-size: 20px;\r\n            line-height: 27px;\r\n            color: #FFFFFF;\r\n        }\r\n         .menu__svg {\r\n            height: 25px;\r\n            width: 25px;\r\n        }\r\n        .menu__links {\r\n            display: flex;\r\n        }\r\n        .menu__login {\r\n            display: flex;\r\n            justify-content: center;\r\n            align-items: center;\r\n            height: 40px;\r\n            padding: 14px 20px;\r\n            border-radius: 8px;\r\n            font-size: 16px;\r\n            line-height: 22px;\r\n            color: #FFFFFF;\r\n            text-decoration: none;\r\n            transition: 200ms;\r\n        }\r\n         .menu__login:hover {\r\n            background: #adadad;\r\n        }\r\n        .menu__register {\r\n            display: flex;\r\n            justify-content: center;\r\n            align-items: center;\r\n            padding: 14px 20px;\r\n            width: 208px;\r\n            height: 40px;\r\n            border-radius: 8px;\r\n            background: #309689;\r\n            color: #FFFFFF;\r\n            text-decoration: none;\r\n            transition: 200ms;\r\n        }\r\n        .menu__register:hover {\r\n            background: #21665d;\r\n        }\r\n    </style>")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 6, "<style>\r\n        .menu {\r\n            display: flex;\r\n            justify-content: space-between;\r\n            width: 100%;\r\n            height: 80px;\r\n            padding: 20px 77px;\r\n\r\n        }\r\n        .menu__logo {\r\n            display: flex;\r\n            justify-content: flex-start;\r\n            gap: 10px;\r\n            font-style: normal;\r\n            font-weight: 600;\r\n            font-size: 20px;\r\n            line-height: 27px;\r\n            color: #FFFFFF;\r\n            text-decoration: none;\r\n        }\r\n         .menu__svg {\r\n            height: 25px;\r\n            width: 25px;\r\n        }\r\n        .menu__links {\r\n            display: flex;\r\n        }\r\n        .menu__login {\r\n            display: flex;\r\n            justify-content: center;\r\n            align-items: center;\r\n            height: 40px;\r\n            padding: 14px 20px;\r\n            border-radius: 8px;\r\n            font-size: 16px;\r\n            line-height: 22px;\r\n            color: #FFFFFF;\r\n            text-decoration: none;\r\n            transition: 200ms;\r\n        }\r\n         .menu__login:hover {\r\n            background: #adadad;\r\n        }\r\n        .menu__register {\r\n            display: flex;\r\n            justify-content: center;\r\n            align-items: center;\r\n            padding: 14px 20px;\r\n            width: 208px;\r\n            height: 40px;\r\n            border-radius: 8px;\r\n            background: #309689;\r\n            color: #FFFFFF;\r\n            text-decoration: none;\r\n            transition: 200ms;\r\n        }\r\n        .menu__register:hover {\r\n            background: #21665d;\r\n        }\r\n    </style>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
