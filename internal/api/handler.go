@@ -88,6 +88,7 @@ func (h ApiHandler) login(ctx *fiber.Ctx) error {
 		Email:    ctx.FormValue("email"),
 		Password: ctx.FormValue("password"),
 	}
+	// Validation
 	errors := validate.Validate(
 		&validators.EmailIsPresent{Name: "Email", Field: f.Email, Message: "Неправильный email"},
 		&validators.StringIsPresent{Name: "Password", Field: f.Password, Message: "Не заполнен пароль"},
@@ -97,15 +98,17 @@ func (h ApiHandler) login(ctx *fiber.Ctx) error {
 		component := components.Notification(msg, components.NotificationError)
 		return tadapter.Render(ctx, component, http.StatusBadRequest)
 	}
+	// Get user from db
 	user := h.userRepo.GetByEmail(f.Email)
 	if user == nil {
 		return tadapter.Render(ctx, components.Notification("Неверный email или пароль", components.NotificationError), http.StatusUnauthorized)
 	}
-	// Проверка пароля
+	// Check hashed password with form password
 	err := bcrypt.CompareHashAndPassword([]byte(user.Password), []byte(f.Password))
 	if err != nil {
 		return tadapter.Render(ctx, components.Notification("Неверный email или пароль", components.NotificationError), http.StatusUnauthorized)
 	}
+	// Session
 	session, err := sess.GetSession(ctx, h.sessionStore, h.CustomLogger)
 	if err != nil {
 		return tadapter.Render(ctx, components.Notification("Ошибка получения сессии", components.NotificationError), http.StatusInternalServerError)
