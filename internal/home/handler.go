@@ -33,6 +33,7 @@ func NewHandler(router fiber.Router, customLogger *zerolog.Logger, vacancyRepo *
 	}
 	h.router.Get("/", h.home)
 	h.router.Get("/login", h.login)
+	h.router.Get("/register", h.register)
 	h.router.Get("/404", h.errorPage)
 }
 
@@ -56,6 +57,11 @@ func (h HomeHandler) home(ctx *fiber.Ctx) error {
 
 func (h HomeHandler) login(ctx *fiber.Ctx) error {
 	component := views.Login()
+	return tadatper.Render(ctx, component, http.StatusOK)
+}
+
+func (h HomeHandler) register(ctx *fiber.Ctx) error {
+	component := views.Register()
 	return tadatper.Render(ctx, component, http.StatusOK)
 }
 

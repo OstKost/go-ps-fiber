@@ -19,6 +19,7 @@ require (
 	github.com/jackc/puddle/v2 v2.2.2 // indirect
 	github.com/onsi/ginkgo v1.16.5 // indirect
 	github.com/onsi/gomega v1.37.0 // indirect
+	github.com/sabloger/sitemap-generator v1.3.0 // indirect
 	golang.org/x/crypto v0.38.0 // indirect
 	golang.org/x/text v0.25.0 // indirect
 )

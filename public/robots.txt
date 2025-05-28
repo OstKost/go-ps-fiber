@@ -1,0 +1,6 @@
+User-agent: *
+Allow: /
+Disallow: /*?*
+Disallow: /*#*
+Host: https://ostkost.github.io/go-ps-fiber/
+Sitemap: https://ostkost.github.io/go-ps-fiber/sitemap.xml

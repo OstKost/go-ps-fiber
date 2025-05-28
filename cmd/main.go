@@ -4,6 +4,8 @@ import (
 	"log"
 	"ostkost/go-ps-fiber/internal/auth"
 	"ostkost/go-ps-fiber/internal/home"
+	"ostkost/go-ps-fiber/internal/robots"
+	"ostkost/go-ps-fiber/internal/sitemap"
 	"ostkost/go-ps-fiber/internal/vacancy"
 	"ostkost/go-ps-fiber/pkg/config"
 	"ostkost/go-ps-fiber/pkg/database"
@@ -51,6 +53,8 @@ func main() {
 	home.NewHandler(app, customLogger, vacancyRepo, store)
 	vacancy.NewHandler(app, customLogger, vacancyRepo)
 	auth.NewAuthHandler(app, customLogger, store)
+	sitemap.NewSitemapHandler(app)
+	robots.NewRobotsHandler(app)
 	// Init server
 	err := app.Listen(":3000")
 	if err != nil {

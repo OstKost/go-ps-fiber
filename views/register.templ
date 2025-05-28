@@ -1,0 +1,24 @@
+package views
+
+import (
+	"ostkost/go-ps-fiber/views/components"
+	"ostkost/go-ps-fiber/views/layout"
+	"ostkost/go-ps-fiber/views/widgets"
+)
+
+templ Register() {
+	@layout.Layout(layout.LayoutProps{
+		Title:           "Регистрация",
+		MetaDescription: "Создайте аккаунт",
+	}) {
+		@layout.Hero() {
+			@layout.Menu()
+			<main>
+				@MainStyle()
+				@components.Title(components.TitleProps{Title: "Регистрация"})
+				@components.Subtitle("Создайте аккаунт, чтобы опубликовать вакансию")
+				@widgets.RegisterForm()
+			</main>
+		}
+	}
+}

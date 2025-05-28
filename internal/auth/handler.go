@@ -28,6 +28,7 @@ func NewAuthHandler(router fiber.Router, customLogger *zerolog.Logger, store *se
 	}
 	authGroup := h.router.Group("/api")
 	authGroup.Post("/signin", h.signIn)
+	authGroup.Post("/signup", h.signUp)
 	authGroup.Get("/signout", h.signOut)
 }
 
@@ -84,6 +85,32 @@ func (h AuthHandler) signOut(ctx *fiber.Ctx) error {
 	if err != nil {
 		h.customLogger.Panic().Msg(err.Error())
 	}
+	ctx.Response().Header.Add("Hx-Redirect", "/")
+	return ctx.Redirect("/", http.StatusOK)
+}
+
+func (h AuthHandler) signUp(ctx *fiber.Ctx) error {
+	f := SignUpForm{
+		Email:    ctx.FormValue("email"),
+		Password: ctx.FormValue("password"),
+	}
+	errors := validate.Validate(
+		&validators.EmailIsPresent{Name: "Email", Field: f.Email, Message: "Неправильный email"},
+		&validators.StringIsPresent{Name: "Password", Field: f.Password, Message: "Не заполнен пароль"},
+		&validators.StringLengthInRange{Name: "password", Field: f.Password, Min: 6, Max: 20, Message: "Пароль должен быть от 6 до 20 символов"},
+	)
+	if len(errors.Errors) > 0 {
+		msg := validator.FormatErrors(errors)
+		component := components.Notification(msg, components.NotificationError)
+		return tadatper.Render(ctx, component, http.StatusBadRequest)
+	}
+	// Db insert
+	// err := h.userRepo.Create(f)
+	// if err != nil {
+	// 	msg := fmt.Sprintf("Ошибка на сервере при создании пользователя")
+	// 	component := components.Notification(msg, components.NotificationError)
+	// 	return tadatper.Render(ctx, component, http.StatusInternalServerError)
+	// }
 	ctx.Response().Header.Add("Hx-Redirect", "/")
 	return ctx.Redirect("/", http.StatusOK)
 }

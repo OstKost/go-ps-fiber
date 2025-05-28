@@ -1,0 +1,33 @@
+package widgets
+
+import "ostkost/go-ps-fiber/views/components"
+
+templ RegisterForm() {
+	<div hx-ext="response-targets">
+		<div id="register-result" class={ notificationClass() }></div>
+		<form
+			class={ registerFormClass() }
+			hx-post="/api/signup"
+			hx-trigger="submit"
+			hx-target="#register-result"
+			hx-target-error="#register-result"
+			hx-swap="innerHTML swap:300ms settle:300ms"
+			hx-on::before-request="if(event.detail.successful) this.reset();"
+			hx-on::after-request="console.log('PostVacancy: ' + (event.detail.successful ? 'success' : 'error'));"
+		>
+			@components.TextInput(components.TextInputProps{Placeholder: "Email", Name: "email", Type: "email"})
+			@components.TextInput(components.TextInputProps{Placeholder: "Пароль", Name: "password", Type: "password"})
+			@components.SubmitButton(components.SubmitButtonProps{Text: "Создать аккаунт"})
+		</form>
+	</div>
+}
+
+css registerFormClass() {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	gap: 30px;
+	width: 100%;
+	max-width: 523px;
+	margin: 0 auto;
+}

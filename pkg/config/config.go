@@ -19,7 +19,7 @@ type LogConfig struct {
 
 func Init() {
 	if err := godotenv.Load(); err != nil {
-		log.Fatal(".env file not loaded")
+		log.Println(".env file not loaded")
 		return
 	}
 

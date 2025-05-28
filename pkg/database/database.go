@@ -14,5 +14,6 @@ func CreateDbPool(config *config.DatabaseConfig, logger *zerolog.Logger) *pgxpoo
 		logger.Error().Err(err).Msg("Failed to create db pool")
 		panic(err)
 	}
+	logger.Info().Msg("Db pool created")
 	return dbpool
 }
