@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"log/slog"
 	"net/http"
+	"ostkost/go-ps-hw-fiber/internal/news"
 	"ostkost/go-ps-hw-fiber/internal/users"
 	sess "ostkost/go-ps-hw-fiber/pkg/session"
 	"ostkost/go-ps-hw-fiber/pkg/tadapter"
@@ -20,22 +21,33 @@ import (
 
 type ApiHandler struct {
 	router       fiber.Router
-	CustomLogger *slog.Logger
+	logger       *slog.Logger
 	userRepo     *users.UserRepository
+	newsRepo     *news.NewsRepository
 	sessionStore *s.Store
 }
 
-func NewApiHandler(router fiber.Router, customLogger *slog.Logger, userRepo *users.UserRepository, session *s.Store) {
+type ApiHandlerProps struct {
+	Router       fiber.Router
+	Logger       *slog.Logger
+	UserRepo     *users.UserRepository
+	NewsRepo     *news.NewsRepository
+	SessionStore *s.Store
+}
+
+func NewApiHandler(props ApiHandlerProps) {
 	h := &ApiHandler{
-		router:       router,
-		CustomLogger: customLogger,
-		userRepo:     userRepo,
-		sessionStore: session,
+		router:       props.Router,
+		logger:       props.Logger,
+		userRepo:     props.UserRepo,
+		newsRepo:     props.NewsRepo,
+		sessionStore: props.SessionStore,
 	}
 	apiGroup := h.router.Group("/api")
 	apiGroup.Post("/register", h.register)
 	apiGroup.Post("/login", h.login)
 	apiGroup.Post("/logout", h.logout)
+	apiGroup.Post("/news", h.createNews)
 }
 
 func (h ApiHandler) register(ctx *fiber.Ctx) error {
@@ -68,14 +80,14 @@ func (h ApiHandler) register(ctx *fiber.Ctx) error {
 		return tadapter.Render(ctx, components.Notification("Ошибка получения пользователя", components.NotificationError), http.StatusInternalServerError)
 	}
 	// Session
-	session, err := sess.GetSession(ctx, h.sessionStore, h.CustomLogger)
+	session, err := sess.GetSession(ctx, h.sessionStore, h.logger)
 	if err != nil {
 		return tadapter.Render(ctx, components.Notification("Ошибка получения сессии", components.NotificationError), http.StatusInternalServerError)
 	}
 	session.Set("email", f.Email)
 	session.Set("userId", user.Id)
 	session.Set("name", user.Name)
-	err = sess.SaveSession(session, h.CustomLogger)
+	err = sess.SaveSession(session, h.logger)
 	if err != nil {
 		return tadapter.Render(ctx, components.Notification("Ошибка сохранения сессии", components.NotificationError), http.StatusInternalServerError)
 	}
@@ -112,14 +124,14 @@ func (h ApiHandler) login(ctx *fiber.Ctx) error {
 	}
 
 	// Session
-	session, err := sess.GetSession(ctx, h.sessionStore, h.CustomLogger)
+	session, err := sess.GetSession(ctx, h.sessionStore, h.logger)
 	if err != nil {
 		return tadapter.Render(ctx, components.Notification("Ошибка получения сессии", components.NotificationError), http.StatusInternalServerError)
 	}
 	session.Set("email", f.Email)
 	session.Set("userId", user.Id)
 	session.Set("name", user.Name)
-	err = sess.SaveSession(session, h.CustomLogger)
+	err = sess.SaveSession(session, h.logger)
 	if err != nil {
 		return tadapter.Render(ctx, components.Notification("Ошибка сохранения сессии", components.NotificationError), http.StatusInternalServerError)
 	}
@@ -128,7 +140,7 @@ func (h ApiHandler) login(ctx *fiber.Ctx) error {
 }
 
 func (h ApiHandler) logout(ctx *fiber.Ctx) error {
-	session, err := sess.GetSession(ctx, h.sessionStore, h.CustomLogger)
+	session, err := sess.GetSession(ctx, h.sessionStore, h.logger)
 	if err != nil {
 		return tadapter.Render(ctx, components.Notification("Ошибка получения сессии", components.NotificationError), http.StatusInternalServerError)
 	}
@@ -138,4 +150,34 @@ func (h ApiHandler) logout(ctx *fiber.Ctx) error {
 	}
 	ctx.Response().Header.Add("Hx-Redirect", "/")
 	return ctx.Redirect("/", http.StatusOK)
+}
+
+func (h ApiHandler) createNews(ctx *fiber.Ctx) error {
+	userId, _ := ctx.Context().Value("userId").(int)
+	if userId == 0 {
+		return tadapter.Render(ctx, components.Notification("Необходимо авторизоваться", components.NotificationError), http.StatusUnauthorized)
+	}
+	f := types.PostNewsForm{
+		Title:   ctx.FormValue("title"),
+		Preview: ctx.FormValue("preview"),
+		Text:    ctx.FormValue("text"),
+	}
+	errors := validate.Validate(
+		&validators.StringIsPresent{Name: "Title", Field: f.Title, Message: "Не задан заголовок"},
+		&validators.StringIsPresent{Name: "Preview", Field: f.Preview, Message: "Не задано превью"},
+		&validators.StringIsPresent{Name: "Text", Field: f.Text, Message: "Не задан текст"},
+	)
+	if len(errors.Errors) > 0 {
+		msg := validator.FormatErrors(errors)
+		component := components.Notification(msg, components.NotificationError)
+		return tadapter.Render(ctx, component, http.StatusBadRequest)
+	}
+	// Db insert
+	fmt.Println("HELLO")
+	err := h.newsRepo.Create(f, userId)
+	if err != nil {
+		h.logger.Error(fmt.Sprintf("DB: Failed to create news: %s", err.Error()))
+		return tadapter.Render(ctx, components.Notification("Ошибка на сервере при создании новости", components.NotificationError), http.StatusInternalServerError)
+	}
+	return tadapter.Render(ctx, components.Notification("Новость создана", components.NotificationSuccess), http.StatusCreated)
 }

@@ -1,0 +1,59 @@
+package components
+
+type TextAreaProps struct {
+	Name     string
+	Label    string
+	Type     string
+	Required bool
+}
+
+templ TextArea(props TextAreaProps) {
+	@TextAreaStyle()
+	<div class="text-area__wrapper">
+		<label class="text-area__label" for={ props.Name }>{ props.Label }</label>
+		<textarea
+			class="text-area__area"
+			name={ props.Name }
+			required={ props.Required }
+		></textarea>
+	</div>
+}
+
+templ TextAreaStyle() {
+	<style> 
+        .text-area__wrapper {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            width: 100%;
+        }
+        .text-area__label {
+            font-weight: 500;
+            font-size: 16px;
+            text-transform: capitalize;
+        }
+        .text-area__area {
+            width: 100%;
+            height: 112px;
+            padding: 16px;
+            border-radius: 12px;
+            background: #F5F5F5;
+            border: 1px solid transparent;
+            transition: 200ms;
+
+            font-weight: 400;
+            font-size: 14px;
+            line-height: 100%;
+            color: #3E3232BF;
+        }
+        .text-area__area:hover {
+            border: 1px solid #F81539BF;
+        }
+        .text-area__area:focus-visible {
+            outline: 1px solid #ff778ebf;
+        }   
+        .text-area__area:focus {
+            border: 1px solid #F81539BF;
+        }
+    </style>
+}

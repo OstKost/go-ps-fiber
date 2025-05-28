@@ -1,6 +1,7 @@
 package pages
 
 import (
+	"fmt"
 	"net/http"
 	"ostkost/go-ps-hw-fiber/pkg/tadapter"
 
@@ -20,6 +21,8 @@ func NewPagesHandler(router fiber.Router) {
 	h.router.Get("/categories", h.categories)
 	h.router.Get("/register", h.register)
 	h.router.Get("/login", h.login)
+	h.router.Get("/news-create", h.newsCreate)
+	h.router.Get("/404", h.notFound)
 }
 
 func (h PagesHandler) index(ctx *fiber.Ctx) error {
@@ -39,5 +42,20 @@ func (h PagesHandler) register(ctx *fiber.Ctx) error {
 
 func (h PagesHandler) login(ctx *fiber.Ctx) error {
 	component := LoginComponent()
+	return tadapter.Render(ctx, component, http.StatusOK)
+}
+
+func (h PagesHandler) notFound(ctx *fiber.Ctx) error {
+	component := NotFoundComponent()
+	return tadapter.Render(ctx, component, http.StatusOK)
+}
+
+func (h PagesHandler) newsCreate(ctx *fiber.Ctx) error {
+	userId, _ := ctx.Context().Value("userId").(int)
+	fmt.Println(userId)
+	if userId == 0 {
+		return ctx.Redirect("/404")
+	}
+	component := NewsCreate()
 	return tadapter.Render(ctx, component, http.StatusOK)
 }

@@ -5,6 +5,7 @@ import (
 	"log"
 	"ostkost/go-ps-hw-fiber/config"
 	"ostkost/go-ps-hw-fiber/internal/api"
+	"ostkost/go-ps-hw-fiber/internal/news"
 	"ostkost/go-ps-hw-fiber/internal/pages"
 	"ostkost/go-ps-hw-fiber/internal/users"
 	"ostkost/go-ps-hw-fiber/pkg/database"
@@ -33,6 +34,7 @@ func main() {
 	app.Use(recover.New())
 	// Static
 	app.Static("/public", "./public")
+	app.Static("/robots.txt", "./public/robots.txt")
 	// Database
 	dbpool := database.CreateDbPool(dbConfig)
 	storage := postgres.New(postgres.Config{
@@ -47,10 +49,21 @@ func main() {
 	app.Use(middleware.AuthMiddleware(sessionStore))
 	// Repositories
 	userRepo := users.NewUserRepository(dbpool, customLogger)
+	newsRepo := news.NewNewsRepository(dbpool, customLogger)
 	// Handlers
 	pages.NewPagesHandler(app)
-	api.NewApiHandler(app, customLogger, userRepo, sessionStore)
+	api.NewApiHandler(api.ApiHandlerProps{
+		Router:       app,
+		Logger:       customLogger,
+		UserRepo:     userRepo,
+		NewsRepo:     newsRepo,
+		SessionStore: sessionStore,
+	})
 	users.NewUserHandler(app, userRepo)
+	// 404
+	app.Use(func(c *fiber.Ctx) error {
+		return c.Redirect("/404")
+	})
 	// Init server
 	err := app.Listen(":3000")
 	if err != nil {

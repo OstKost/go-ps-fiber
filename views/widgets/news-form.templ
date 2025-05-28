@@ -1,0 +1,50 @@
+package widgets
+
+import "ostkost/go-ps-hw-fiber/views/components"
+
+templ NewsForm() {
+	@NewsFormStyle()
+	<div hx-ext="response-targets" class="news-form__container">
+		<form
+			class="news-form__form"
+			hx-post="/api/news"
+			hx-trigger="submit"
+			hx-target="#news-form-result"
+			hx-target-error="#news-form-result"
+			hx-swap="innerHTML"
+		>
+			<div class="news-form__inputs">
+				@components.TextInput(components.TextInputProps{Name: "title", Label: "Заголовок", Type: "text", Required: true})
+				@components.TextArea(components.TextAreaProps{Name: "preview", Label: "Превью", Required: true})
+				@components.TextArea(components.TextAreaProps{Name: "text", Label: "Текст", Required: true})
+			</div>
+			<div id="news-form-result"></div>
+			@components.SubmitButton("Создать новость")
+		</form>
+	</div>
+}
+
+templ NewsFormStyle() {
+	<style>
+		.news-form__container {
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+			width: 100%;
+		}
+        .news-form__form {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 51px;
+            width: 100%;
+            max-width: 488px;
+        }
+        .news-form__inputs {
+            display: flex;
+            flex-direction: column;
+            gap: 25px;
+            width: 100%;  
+        }
+    </style>
+}
