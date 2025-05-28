@@ -20,3 +20,9 @@ type User struct {
 	Name      string    `db:"name"`
 	CreatedAt time.Time `db:"created_at"`
 }
+
+type PostNewsForm struct {
+	Title   string `json:"title"`
+	Preview string `json:"preview"`
+	Text    string `json:"text"`
+}
