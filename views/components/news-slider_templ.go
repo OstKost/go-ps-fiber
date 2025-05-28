@@ -8,14 +8,6 @@ package components
 import "github.com/a-h/templ"
 import templruntime "github.com/a-h/templ/runtime"
 
-import "fmt"
-
-type NewsSlideProps struct {
-	Title       string
-	Description string
-	Img         string
-}
-
 func NewsSlider(slides []NewsSlideProps) templ.Component {
 	return templruntime.GeneratedTemplate(func(templ_7745c5c3_Input templruntime.GeneratedComponentInput) (templ_7745c5c3_Err error) {
 		templ_7745c5c3_W, ctx := templ_7745c5c3_Input.Writer, templ_7745c5c3_Input.Context
@@ -38,10 +30,6 @@ func NewsSlider(slides []NewsSlideProps) templ.Component {
 		}
 		ctx = templ.ClearChildren(ctx)
 		templ_7745c5c3_Err = NewsSliderStyles().Render(ctx, templ_7745c5c3_Buffer)
-		if templ_7745c5c3_Err != nil {
-			return templ_7745c5c3_Err
-		}
-		templ_7745c5c3_Err = NewsSliderSlideStyles().Render(ctx, templ_7745c5c3_Buffer)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -98,75 +86,7 @@ func NewsSliderScript() templ.Component {
 			templ_7745c5c3_Var2 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 5, "<script>\r\n    document.addEventListener('DOMContentLoaded', () => {\r\n        class NewsSlider {\r\n            constructor(container) {\r\n                this.container = container;\r\n                this.slidesContainer = container.querySelector('.news-slider__slides');\r\n                this.slides = Array.from(container.querySelectorAll('.slide__container'));\r\n                this.prevBtn = container.querySelector('.news-slider__btn:first-child');\r\n                this.nextBtn = container.querySelector('.news-slider__btn:last-child');\r\n                this.dots = Array.from(container.querySelectorAll('.news-slider__status-item'));\r\n                this.currentIndex = 0;\r\n                this.autoPlayInterval = null;\r\n                this.autoPlayDelay = 5000;\r\n\r\n                this.init();\r\n            }\r\n\r\n            init() {\r\n                   // Навигация\r\n                this.prevBtn.addEventListener('click', () => this.prevSlide());\r\n                this.nextBtn.addEventListener('click', () => this.nextSlide());\r\n\r\n                // Точечная навигация\r\n                this.dots.forEach((dot, index) => {\r\n                    dot.addEventListener('click', () => this.goToSlide(index));\r\n                });\r\n\r\n                // Автоплей\r\n                this.startAutoPlay();\r\n                \r\n                // Остановка автоплея при наведении\r\n                this.container.addEventListener('mouseenter', () => this.stopAutoPlay());\r\n                this.container.addEventListener('mouseleave', () => this.startAutoPlay());\r\n\r\n                this.updateSlider();\r\n            }\r\n\r\n            updateSlider() {\r\n                this.slidesContainer.style.transform = `translateX(-${this.currentIndex * 100}%)`;\r\n            \r\n                // Обновление активной точки\r\n                this.dots.forEach((dot, index) => {\r\n                    dot.classList.toggle('news-slider__status-item--active', index === this.currentIndex);\r\n                });\r\n            }\r\n\r\n            nextSlide() {\r\n                this.currentIndex = (this.currentIndex + 1) % this.slides.length;\r\n                this.updateSlider();\r\n            }\r\n\r\n            prevSlide() {\r\n                this.currentIndex = (this.currentIndex - 1 + this.slides.length) % this.slides.length;\r\n                this.updateSlider();\r\n            }\r\n\r\n            goToSlide(index) {\r\n                this.currentIndex = index;\r\n                this.updateSlider();\r\n            }\r\n\r\n            startAutoPlay() {\r\n                this.stopAutoPlay();\r\n                this.autoPlayInterval = setInterval(() => this.nextSlide(), this.autoPlayDelay);\r\n            }\r\n\r\n            stopAutoPlay() {\r\n                if (this.autoPlayInterval) {\r\n                    clearInterval(this.autoPlayInterval);\r\n                    this.autoPlayInterval = null;\r\n                }\r\n            }\r\n        }\r\n\r\n        // Инициализация всех слайдеров на странице\r\n        document.querySelectorAll('.news-slider__container').forEach(container => {\r\n            new NewsSlider(container);\r\n        });\r\n    });\r\n    </script>")
-		if templ_7745c5c3_Err != nil {
-			return templ_7745c5c3_Err
-		}
-		return nil
-	})
-}
-
-func NewsSlide(props NewsSlideProps) templ.Component {
-	return templruntime.GeneratedTemplate(func(templ_7745c5c3_Input templruntime.GeneratedComponentInput) (templ_7745c5c3_Err error) {
-		templ_7745c5c3_W, ctx := templ_7745c5c3_Input.Writer, templ_7745c5c3_Input.Context
-		if templ_7745c5c3_CtxErr := ctx.Err(); templ_7745c5c3_CtxErr != nil {
-			return templ_7745c5c3_CtxErr
-		}
-		templ_7745c5c3_Buffer, templ_7745c5c3_IsBuffer := templruntime.GetBuffer(templ_7745c5c3_W)
-		if !templ_7745c5c3_IsBuffer {
-			defer func() {
-				templ_7745c5c3_BufErr := templruntime.ReleaseBuffer(templ_7745c5c3_Buffer)
-				if templ_7745c5c3_Err == nil {
-					templ_7745c5c3_Err = templ_7745c5c3_BufErr
-				}
-			}()
-		}
-		ctx = templ.InitializeContext(ctx)
-		templ_7745c5c3_Var3 := templ.GetChildren(ctx)
-		if templ_7745c5c3_Var3 == nil {
-			templ_7745c5c3_Var3 = templ.NopComponent
-		}
-		ctx = templ.ClearChildren(ctx)
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 6, "<div class=\"slide__container\" style=\"")
-		if templ_7745c5c3_Err != nil {
-			return templ_7745c5c3_Err
-		}
-		var templ_7745c5c3_Var4 string
-		templ_7745c5c3_Var4, templ_7745c5c3_Err = templruntime.SanitizeStyleAttributeValues(fmt.Sprintf("background-image: url(/public/images/news/%s);", props.Img))
-		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `views/components/news-slider.templ`, Line: 121, Col: 111}
-		}
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var4))
-		if templ_7745c5c3_Err != nil {
-			return templ_7745c5c3_Err
-		}
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 7, "\"><div class=\"slide__info\"><h3 class=\"slide__title\">")
-		if templ_7745c5c3_Err != nil {
-			return templ_7745c5c3_Err
-		}
-		var templ_7745c5c3_Var5 string
-		templ_7745c5c3_Var5, templ_7745c5c3_Err = templ.JoinStringErrs(props.Title)
-		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `views/components/news-slider.templ`, Line: 123, Col: 41}
-		}
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var5))
-		if templ_7745c5c3_Err != nil {
-			return templ_7745c5c3_Err
-		}
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 8, "</h3><p class=\"slide__description\">")
-		if templ_7745c5c3_Err != nil {
-			return templ_7745c5c3_Err
-		}
-		var templ_7745c5c3_Var6 string
-		templ_7745c5c3_Var6, templ_7745c5c3_Err = templ.JoinStringErrs(props.Description)
-		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `views/components/news-slider.templ`, Line: 124, Col: 52}
-		}
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var6))
-		if templ_7745c5c3_Err != nil {
-			return templ_7745c5c3_Err
-		}
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 9, "</p></div></div>")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 5, "<script>\r\n    document.addEventListener('DOMContentLoaded', () => {\r\n        class NewsSlider {\r\n            constructor(container) {\r\n                this.container = container;\r\n                this.slidesContainer = container.querySelector('.news-slider__slides');\r\n                this.slides = Array.from(container.querySelectorAll('.slide__container'));\r\n                this.prevBtn = container.querySelector('.news-slider__btn:first-child');\r\n                this.nextBtn = container.querySelector('.news-slider__btn:last-child');\r\n                this.dots = Array.from(container.querySelectorAll('.news-slider__status-item'));\r\n                this.currentIndex = 0;\r\n                this.autoPlayInterval = null;\r\n                this.autoPlayDelay = 5000;\r\n\r\n                this.init();\r\n            }\r\n\r\n            init() {\r\n                // Навигация\r\n                this.prevBtn.addEventListener('click', () => this.prevSlide());\r\n                this.nextBtn.addEventListener('click', () => this.nextSlide());\r\n\r\n                // Точечная навигация\r\n                this.dots.forEach((dot, index) => {\r\n                    dot.addEventListener('click', () => this.goToSlide(index));\r\n                });\r\n\r\n                // Автоплей\r\n                this.startAutoPlay();\r\n                \r\n                // Остановка автоплея при наведении\r\n                this.container.addEventListener('mouseenter', () => this.stopAutoPlay());\r\n                this.container.addEventListener('mouseleave', () => this.startAutoPlay());\r\n\r\n                this.updateSlider();\r\n            }\r\n\r\n            updateSlider() {\r\n                this.slidesContainer.style.transform = `translateX(-${this.currentIndex * 100}%)`;\r\n            \r\n                // Обновление активной точки\r\n                this.dots.forEach((dot, index) => {\r\n                    dot.classList.toggle('news-slider__status-item--active', index === this.currentIndex);\r\n                });\r\n            }\r\n\r\n            nextSlide() {\r\n                this.currentIndex = (this.currentIndex + 1) % this.slides.length;\r\n                this.updateSlider();\r\n            }\r\n\r\n            prevSlide() {\r\n                this.currentIndex = (this.currentIndex - 1 + this.slides.length) % this.slides.length;\r\n                this.updateSlider();\r\n            }\r\n\r\n            goToSlide(index) {\r\n                this.currentIndex = index;\r\n                this.updateSlider();\r\n            }\r\n\r\n            startAutoPlay() {\r\n                this.stopAutoPlay();\r\n                this.autoPlayInterval = setInterval(() => this.nextSlide(), this.autoPlayDelay);\r\n            }\r\n\r\n            stopAutoPlay() {\r\n                if (this.autoPlayInterval) {\r\n                    clearInterval(this.autoPlayInterval);\r\n                    this.autoPlayInterval = null;\r\n                }\r\n            }\r\n        }\r\n\r\n        // Инициализация всех слайдеров на странице\r\n        document.querySelectorAll('.news-slider__container').forEach(container => {\r\n            new NewsSlider(container);\r\n        });\r\n    });\r\n    </script>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -190,41 +110,12 @@ func NewsSliderStyles() templ.Component {
 			}()
 		}
 		ctx = templ.InitializeContext(ctx)
-		templ_7745c5c3_Var7 := templ.GetChildren(ctx)
-		if templ_7745c5c3_Var7 == nil {
-			templ_7745c5c3_Var7 = templ.NopComponent
+		templ_7745c5c3_Var3 := templ.GetChildren(ctx)
+		if templ_7745c5c3_Var3 == nil {
+			templ_7745c5c3_Var3 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 10, "<style>\r\n    .news-slider__container {\r\n        display: flex;\r\n        flex-direction: column;\r\n        position: relative;\r\n        width: 100%;\r\n        max-width: 744px;\r\n        height: 452px;\r\n        border-radius: 12px;\r\n        overflow: hidden;\r\n    }\r\n    .news-slider__slides {\r\n        display: flex;\r\n        transition: transform 0.5s ease;\r\n        width: 100%;\r\n        height: 100%;\r\n        transform-style: preserve-3d;\r\n    }\r\n    .news-slider__actions {\r\n        position: absolute;\r\n        top: calc(50% - 20px);\r\n        left: 0;\r\n        width: 100%;\r\n        padding: 0 10px;\r\n        display: flex;\r\n        justify-content: space-between;\r\n    }\r\n    .news-slider__btn {\r\n        width: 40px;\r\n        height: 40px;\r\n        border-radius: 12px;\r\n        display: flex;\r\n        justify-content: center;\r\n        align-items: center;\r\n        background: #F5F5F5;\r\n        border: none;\r\n        cursor: pointer;\r\n        transition: 200ms;\r\n     }\r\n     .news-slider__btn img {\r\n        opacity: 0.5;\r\n        transition: 200ms;\r\n     }\r\n     .news-slider__btn:hover img {\r\n        opacity: 1;\r\n     }\r\n     .news-slider__btn:hover {    \r\n        background: #dcdcdc;\r\n     }\r\n    .news-slider__status {\r\n        position: absolute;\r\n        display: flex;\r\n        gap: 5px;\r\n        padding: 11px 14px;\r\n        bottom: 10px;\r\n        right: 10px;\r\n    }\r\n    .news-slider__status-item {\r\n        width: 10px;\r\n        height: 10px;\r\n        border-radius: 50%;\r\n        background: rgba(255, 255, 255, 0.5);\r\n        transition: 200ms;\r\n        cursor: pointer;\r\n    }\r\n    .news-slider__status-item--active {\r\n        width: 27px;\r\n        height: 10px;\r\n        background: #FFFFFF;\r\n        border-radius: 50px;\r\n    }\r\n</style>")
-		if templ_7745c5c3_Err != nil {
-			return templ_7745c5c3_Err
-		}
-		return nil
-	})
-}
-
-func NewsSliderSlideStyles() templ.Component {
-	return templruntime.GeneratedTemplate(func(templ_7745c5c3_Input templruntime.GeneratedComponentInput) (templ_7745c5c3_Err error) {
-		templ_7745c5c3_W, ctx := templ_7745c5c3_Input.Writer, templ_7745c5c3_Input.Context
-		if templ_7745c5c3_CtxErr := ctx.Err(); templ_7745c5c3_CtxErr != nil {
-			return templ_7745c5c3_CtxErr
-		}
-		templ_7745c5c3_Buffer, templ_7745c5c3_IsBuffer := templruntime.GetBuffer(templ_7745c5c3_W)
-		if !templ_7745c5c3_IsBuffer {
-			defer func() {
-				templ_7745c5c3_BufErr := templruntime.ReleaseBuffer(templ_7745c5c3_Buffer)
-				if templ_7745c5c3_Err == nil {
-					templ_7745c5c3_Err = templ_7745c5c3_BufErr
-				}
-			}()
-		}
-		ctx = templ.InitializeContext(ctx)
-		templ_7745c5c3_Var8 := templ.GetChildren(ctx)
-		if templ_7745c5c3_Var8 == nil {
-			templ_7745c5c3_Var8 = templ.NopComponent
-		}
-		ctx = templ.ClearChildren(ctx)
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 11, "<style>\r\n    .slide__container {\r\n        display: flex;\r\n        flex-direction: column;\r\n        justify-content: flex-end;\r\n        width: 100%;\r\n        min-width: 100%;\r\n        height: 100%;\r\n        padding: 10px;\r\n        background-color: #f5f5f5;\r\n        background-size: 100%;\r\n        background-repeat: no-repeat;\r\n        background-position: center;\r\n    }\r\n    .slide__info {\r\n         display: flex;\r\n         flex-direction: column;\r\n         justify-content: space-between;\r\n         width: 100%;\r\n         height: 117px;\r\n         padding: 16px;\r\n         background: rgba(255, 255, 255, 0.75);\r\n         will-change: transform;\r\n         backdrop-filter: blur(5px);\r\n         border-radius: 12px;\r\n     }\r\n     .slide__title {\r\n         margin: 0;\r\n         font-weight: 400;\r\n         font-size: 25px;\r\n         line-height: 29px;\r\n         color: #000000;\r\n     }\r\n     .slide__description {\r\n         display: -webkit-box;\r\n         display: box;\r\n         -webkit-line-clamp: 2;\r\n         line-clamp: 2;\r\n         -webkit-box-orient: vertical;\r\n         box-orient: vertical;\r\n         overflow: hidden;\r\n         text-overflow: ellipsis;\r\n         max-width: 75%;\r\n         margin: 0;\r\n         font-weight: 400;\r\n         font-size: 14px;\r\n         line-height: 20px;\r\n         letter-spacing: 0.25px;\r\n         color: rgba(0, 0, 0, 0.75);\r\n     }\r\n    .slider__btn:hover {\r\n        background: #dcdcdc;\r\n     }\r\n</style>")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 6, "<style>\r\n    .news-slider__container {\r\n        display: flex;\r\n        flex-direction: column;\r\n        position: relative;\r\n        width: 100%;\r\n        max-width: 744px;\r\n        height: 452px;\r\n        border-radius: 12px;\r\n        overflow: hidden;\r\n    }\r\n    .news-slider__slides {\r\n        display: flex;\r\n        transition: transform 0.5s ease;\r\n        width: 100%;\r\n        height: 100%;\r\n        transform-style: preserve-3d;\r\n    }\r\n    .news-slider__actions {\r\n        position: absolute;\r\n        top: calc(50% - 20px);\r\n        left: 0;\r\n        width: 100%;\r\n        padding: 0 10px;\r\n        display: flex;\r\n        justify-content: space-between;\r\n    }\r\n    .news-slider__btn {\r\n        width: 40px;\r\n        height: 40px;\r\n        border-radius: 12px;\r\n        display: flex;\r\n        justify-content: center;\r\n        align-items: center;\r\n        background: #F5F5F5;\r\n        border: none;\r\n        cursor: pointer;\r\n        transition: 200ms;\r\n     }\r\n     .news-slider__btn img {\r\n        opacity: 0.5;\r\n        transition: 200ms;\r\n     }\r\n     .news-slider__btn:hover img {\r\n        opacity: 1;\r\n     }\r\n     .news-slider__btn:hover {    \r\n        background: #dcdcdc;\r\n     }\r\n    .news-slider__status {\r\n        position: absolute;\r\n        display: flex;\r\n        gap: 5px;\r\n        padding: 11px 14px;\r\n        bottom: 10px;\r\n        right: 10px;\r\n    }\r\n    .news-slider__status-item {\r\n        width: 10px;\r\n        height: 10px;\r\n        border-radius: 50%;\r\n        background: rgba(255, 255, 255, 0.5);\r\n        transition: 200ms;\r\n        cursor: pointer;\r\n    }\r\n    .news-slider__status-item--active {\r\n        width: 27px;\r\n        height: 10px;\r\n        background: #FFFFFF;\r\n        border-radius: 50px;\r\n    }\r\n</style>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
