@@ -11,6 +11,7 @@ type NewsSlideProps struct {
 templ NewsSlider(slides []NewsSlideProps) {
 	@NewsSliderStyles()
 	@NewsSliderSlideStyles()
+	@NewsSliderScript()
 	<div class="news-slider__container">
 		<div class="news-slider__slides">
 			for _, slide := range slides {
@@ -31,6 +32,97 @@ templ NewsSlider(slides []NewsSlideProps) {
 			}
 		</div>
 	</div>
+}
+
+templ NewsSliderScript() {
+	<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        class NewsSlider {
+            constructor(container) {
+                this.container = container;
+                this.slidesContainer = container.querySelector('.news-slider__slides');
+                this.slides = Array.from(container.querySelectorAll('.slide__container'));
+                this.prevBtn = container.querySelector('.news-slider__btn:first-child');
+                this.nextBtn = container.querySelector('.news-slider__btn:last-child');
+                this.dots = Array.from(container.querySelectorAll('.news-slider__status-item'));
+                this.currentIndex = 0;
+                this.autoPlayInterval = null;
+                this.autoPlayDelay = 5000;
+
+                this.init();
+            }
+
+            init() {
+                // Инициализация стилей
+                this.slidesContainer.style.display = 'flex';
+                this.slidesContainer.style.transition = 'transform 0.5s ease';
+                this.slides.forEach(slide => {
+                    slide.style.flex = '0 0 100%';
+                    slide.style.maxWidth = '100%';
+                });
+
+                // Навигация
+                this.prevBtn.addEventListener('click', () => this.prevSlide());
+                this.nextBtn.addEventListener('click', () => this.nextSlide());
+
+                // Точечная навигация
+                this.dots.forEach((dot, index) => {
+                    dot.addEventListener('click', () => this.goToSlide(index));
+                });
+
+                // Автоплей
+                this.startAutoPlay();
+                
+                // Остановка автоплея при наведении
+                this.container.addEventListener('mouseenter', () => this.stopAutoPlay());
+                this.container.addEventListener('mouseleave', () => this.startAutoPlay());
+
+                this.updateSlider();
+            }
+
+            updateSlider() {
+                this.slidesContainer.style.transform = `translateX(-${this.currentIndex * 100}%)`;
+            
+                // Обновление активной точки
+                this.dots.forEach((dot, index) => {
+                    dot.classList.toggle('news-slider__status-item--active', index === this.currentIndex);
+                });
+            }
+
+            nextSlide() {
+                this.currentIndex = (this.currentIndex + 1) % this.slides.length;
+                this.updateSlider();
+            }
+
+            prevSlide() {
+                this.currentIndex = (this.currentIndex - 1 + this.slides.length) % this.slides.length;
+                this.updateSlider();
+            }
+
+            goToSlide(index) {
+                this.currentIndex = index;
+                this.updateSlider();
+            }
+
+            startAutoPlay() {
+                this.stopAutoPlay();
+                this.autoPlayInterval = setInterval(() => this.nextSlide(), this.autoPlayDelay);
+            }
+
+            stopAutoPlay() {
+                if (this.autoPlayInterval) {
+                    clearInterval(this.autoPlayInterval);
+                    this.autoPlayInterval = null;
+                }
+            }
+        }
+
+        // Инициализация всех слайдеров на странице
+        document.querySelectorAll('.news-slider__container').forEach(container => {
+            new NewsSlider(container);
+        });
+    });
+    </script>
 }
 
 templ NewsSlide(props NewsSlideProps) {
@@ -55,8 +147,11 @@ templ NewsSliderStyles() {
         overflow: hidden;
     }
     .news-slider__slides {
+        display: flex;
+        transition: transform 0.5s ease;
         width: 100%;
         height: 100%;
+        transform-style: preserve-3d;
     }
     .news-slider__actions {
         position: absolute;
@@ -79,7 +174,14 @@ templ NewsSliderStyles() {
         cursor: pointer;
         transition: 200ms;
      }
-     .slider__btn:hover {
+     .news-slider__btn img {
+        opacity: 0.5;
+        transition: 200ms;
+     }
+     .news-slider__btn:hover img {
+        opacity: 1;
+     }
+     .news-slider__btn:hover {    
         background: #dcdcdc;
      }
     .news-slider__status {
@@ -96,6 +198,7 @@ templ NewsSliderStyles() {
         border-radius: 50%;
         background: rgba(255, 255, 255, 0.5);
         transition: 200ms;
+        cursor: pointer;
     }
     .news-slider__status-item--active {
         width: 27px;
@@ -113,6 +216,7 @@ templ NewsSliderSlideStyles() {
         flex-direction: column;
         justify-content: flex-end;
         width: 100%;
+        min-width: 100%;
         height: 100%;
         padding: 10px;
         background-color: #f5f5f5;
@@ -128,6 +232,7 @@ templ NewsSliderSlideStyles() {
          height: 117px;
          padding: 16px;
          background: rgba(255, 255, 255, 0.75);
+         will-change: transform;
          backdrop-filter: blur(5px);
          border-radius: 12px;
      }
@@ -154,6 +259,9 @@ templ NewsSliderSlideStyles() {
          line-height: 20px;
          letter-spacing: 0.25px;
          color: rgba(0, 0, 0, 0.75);
+     }
+    .slider__btn:hover {
+        background: #dcdcdc;
      }
 </style>
 }

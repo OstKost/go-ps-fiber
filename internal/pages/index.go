@@ -1,9 +1,10 @@
 package pages
 
 import (
-	"github.com/a-h/templ"
 	"ostkost/go-ps-hw-fiber/views"
 	"ostkost/go-ps-hw-fiber/views/components"
+
+	"github.com/a-h/templ"
 )
 
 func IndexComponent() templ.Component {
@@ -32,6 +33,8 @@ func IndexComponent() templ.Component {
 
 	newsSlides := []components.NewsSlideProps{
 		{Title: "Несколько мониторов - Зло!", Description: "Большинство людей используют несколько мониторов. Сегодня мы разберём почему это может быть очень не эффективно и как с этим боро...", Img: "monitor.jpg"},
+		{Title: "22Несколько мониторов - Зло!", Description: "Большинство людей используют несколько мониторов. Сегодня мы разберём почему это может быть очень не эффективно и как с этим боро...", Img: "monitor.jpg"},
+		{Title: "33Несколько мониторов - Зло!", Description: "Большинство людей используют несколько мониторов. Сегодня мы разберём почему это может быть очень не эффективно и как с этим боро...", Img: "monitor.jpg"},
 	}
 
 	props := views.IndexProps{
