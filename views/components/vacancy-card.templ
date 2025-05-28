@@ -1,11 +1,14 @@
 package components
 
 import (
+	"fmt"
 	"github.com/rvflash/elapsed"
+	"strconv"
 	"time"
 )
 
 type VacancyCardProps struct {
+	Id        int
 	Vacancy   string
 	Company   string
 	Industry  string
@@ -16,9 +19,11 @@ type VacancyCardProps struct {
 }
 
 templ VacancyCard(props VacancyCardProps) {
-	@VacancyCardStyle()
 	{{ date := elapsed.LocalTime(props.CreatedAt, "ru") }}
-	<article class="vacancy-card">
+	@VacancyCardStyle()
+	@VacancyCardScript()
+	@templ.JSONScript(fmt.Sprintf("vacancy-id-%d", props.Id), props)
+	<article class="vacancy-card" vacancy-data-id={ strconv.Itoa(props.Id) } vacancy-data={ templ.JSONString(props) }>
 		<div class="vacancy-card__time">{ date }</div>
 		<div class="vacancy-card__main-info">
 			<div class="vacancy-card__logo">
@@ -45,10 +50,21 @@ templ VacancyCard(props VacancyCardProps) {
 				</p>
 			</div>
 			<div class="vacancy-card__actions">
-				<button class="vacancy-card__button">Откликнуться</button>
+				@VacancyButton(templ.JSFuncCall("submitVacancyHandler", props.Id))
 			</div>
 		</div>
 	</article>
+}
+
+templ VacancyCardScript() {
+	<script>
+        function submitVacancyHandler(id) {
+            const el = document.querySelector(`[vacancy-data-id="${id}"]`);
+            console.log(el);
+            data = JSON.parse(el.getAttribute('vacancy-data'));
+            console.log(data);
+        }
+    </script>
 }
 
 templ VacancyCardStyle() {

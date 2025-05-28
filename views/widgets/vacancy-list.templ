@@ -10,6 +10,7 @@ templ VacancyList(vacancies []vacancy.Vacancy) {
 	<div class="vacancy-list__vacancies">
 		for _, vacancy := range vacancies {
 			@components.VacancyCard(components.VacancyCardProps{
+				Id:        vacancy.Id,
 				Vacancy:   vacancy.Vacancy,
 				Company:   vacancy.Company,
 				Industry:  vacancy.Industry,

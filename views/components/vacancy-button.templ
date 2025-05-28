@@ -1,0 +1,32 @@
+package components
+
+templ VacancyButton(onclick templ.ComponentScript) {
+	@VacancyButtonStyle()
+	<button
+		class="vacancy-card__button"
+		onclick={ onclick }
+	>
+		Откликнуться
+	</button>
+}
+
+templ VacancyButtonStyle() {
+	<style>
+		.vacancy-button {
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			height: 40px;
+			padding: 14px 20px;
+			margin: 0;
+			border-radius: 8px;
+			border: none;
+			background: #309689;
+			color: white;
+			font-weight: 600;
+			font-size: 16px;
+			cursor: pointer;
+			transition: 200ms;
+		}
+    </style>
+}
