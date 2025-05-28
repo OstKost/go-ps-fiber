@@ -53,15 +53,7 @@ templ NewsSliderScript() {
             }
 
             init() {
-                // Инициализация стилей
-                this.slidesContainer.style.display = 'flex';
-                this.slidesContainer.style.transition = 'transform 0.5s ease';
-                this.slides.forEach(slide => {
-                    slide.style.flex = '0 0 100%';
-                    slide.style.maxWidth = '100%';
-                });
-
-                // Навигация
+                   // Навигация
                 this.prevBtn.addEventListener('click', () => this.prevSlide());
                 this.nextBtn.addEventListener('click', () => this.nextSlide());
 
