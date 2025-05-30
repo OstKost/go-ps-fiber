@@ -4,8 +4,8 @@ CREATE TABLE news.news (
     preview VARCHAR(255) NOT NULL,
     text VARCHAR(255) NOT NULL,
     user_id INT NOT NULL,
-    categories VARCHAR(255) NOT NULL,
-    keywords VARCHAR(255) NOT NULL,
+    categories TEXT[] NOT NULL,
+    keywords TEXT[] NOT NULL,
     created_at TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP,
     deleted_at TIMESTAMPTZ

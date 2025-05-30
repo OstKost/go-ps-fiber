@@ -9,6 +9,7 @@ import (
 
 	sq "github.com/Masterminds/squirrel"
 	"github.com/jackc/pgx/v5/pgxpool"
+	"github.com/lib/pq"
 )
 
 type NewsRepository struct {
@@ -58,12 +59,12 @@ func (r *NewsRepository) Find(limit, offset int, category, keyword string) ([]Ne
 		"updated_at",
 	).From("news.news")
 
-	// Добавляем условия поиска
+	// Добавляем условия поиска для массивов
 	if category != "" {
-		queryBuilder = queryBuilder.Where(sq.Like{"categories": "%" + category + "%"})
+		queryBuilder = queryBuilder.Where("? = ANY(categories)", category)
 	}
 	if keyword != "" {
-		queryBuilder = queryBuilder.Where(sq.Like{"keywords": "%" + keyword + "%"})
+		queryBuilder = queryBuilder.Where("? = ANY(keywords)", keyword)
 	}
 
 	// Добавляем сортировку и пагинацию
@@ -96,8 +97,8 @@ func (r *NewsRepository) Find(limit, offset int, category, keyword string) ([]Ne
 			&n.Preview,
 			&n.Text,
 			&n.UserId,
-			&n.Categories,
-			&n.Keywords,
+			pq.Array(&n.Categories), // Используем pq.Array для сканирования массивов
+			pq.Array(&n.Keywords),   // Используем pq.Array для сканирования массивов
 			&n.CreatedAt,
 			&n.UpdatedAt,
 		)
