@@ -5,10 +5,9 @@ import (
 	"fmt"
 	"log/slog"
 	"ostkost/go-ps-hw-fiber/pkg/types"
-	"strconv"
-	"strings"
 	"time"
 
+	sq "github.com/Masterminds/squirrel"
 	"github.com/jackc/pgx/v5/pgxpool"
 )
 
@@ -46,52 +45,48 @@ func (r *NewsRepository) Create(form types.PostNewsForm, userId int) error {
 }
 
 func (r *NewsRepository) Find(limit, offset int, category, keyword string) ([]NewsArticle, error) {
-	var query strings.Builder
-	args := make([]interface{}, 0, 4)
-	argPos := 1
+	// Инициализируем построитель запросов
+	queryBuilder := sq.Select(
+		"id",
+		"title",
+		"preview",
+		"text",
+		"user_id",
+		"categories",
+		"keywords",
+		"created_at",
+		"updated_at",
+	).From("news.news")
 
-	query.WriteString(`SELECT 
-		id, title, preview, text, user_id,
-		categories, keywords, created_at, updated_at 
-	FROM news.news`)
-
-	// Добавляем условия WHERE только если есть параметры
-	whereAdded := false
-
+	// Добавляем условия поиска
 	if category != "" {
-		query.WriteString(" WHERE categories LIKE $")
-		query.WriteString(strconv.Itoa(argPos))
-		args = append(args, "%"+category+"%")
-		argPos++
-		whereAdded = true
+		queryBuilder = queryBuilder.Where(sq.Like{"categories": "%" + category + "%"})
 	}
-
 	if keyword != "" {
-		if whereAdded {
-			query.WriteString(" OR keywords LIKE $")
-		} else {
-			query.WriteString(" WHERE keywords LIKE $")
-			whereAdded = true
-		}
-		query.WriteString(strconv.Itoa(argPos))
-		args = append(args, "%"+keyword+"%")
-		argPos++
+		queryBuilder = queryBuilder.Where(sq.Like{"keywords": "%" + keyword + "%"})
 	}
 
-	query.WriteString(" ORDER BY created_at DESC LIMIT $")
-	query.WriteString(strconv.Itoa(argPos))
-	args = append(args, limit)
-	argPos++
+	// Добавляем сортировку и пагинацию
+	queryBuilder = queryBuilder.
+		OrderBy("created_at DESC").
+		Limit(uint64(limit)).
+		Offset(uint64(offset))
 
-	query.WriteString(" OFFSET $")
-	query.WriteString(strconv.Itoa(argPos))
-	args = append(args, offset)
+	// Генерируем SQL и аргументы
+	sql, args, err := queryBuilder.PlaceholderFormat(sq.Dollar).ToSql()
+	if err != nil {
+		r.logger.Error(fmt.Sprintf("Failed to build query: %s", err.Error()))
+		return nil, err
+	}
 
-	rows, err := r.dbpool.Query(context.Background(), query.String(), args...)
+	// Выполняем запрос
+	rows, err := r.dbpool.Query(context.Background(), sql, args...)
 	if err != nil {
 		r.logger.Error(fmt.Sprintf("Failed to find news: %s", err.Error()))
 		return nil, err
 	}
+
+	// Обрабатываем результаты
 	news := []NewsArticle{}
 	for rows.Next() {
 		var n NewsArticle
@@ -112,5 +107,6 @@ func (r *NewsRepository) Find(limit, offset int, category, keyword string) ([]Ne
 		}
 		news = append(news, n)
 	}
+
 	return news, nil
 }

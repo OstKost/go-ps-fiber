@@ -212,5 +212,5 @@ func (h ApiHandler) findNews(ctx *fiber.Ctx) error {
 		})
 	}
 	component := widgets.Posts(posts)
-	return tadapter.Render(ctx, component, http.StatusCreated)
+	return tadapter.Render(ctx, component, http.StatusOK)
 }
