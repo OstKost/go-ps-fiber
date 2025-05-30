@@ -4,7 +4,6 @@ CREATE TABLE news.news (
     preview VARCHAR(255) NOT NULL,
     text VARCHAR(255) NOT NULL,
     user_id INT NOT NULL,
-    user_email VARCHAR(255) NOT NULL,
     categories VARCHAR(255) NOT NULL,
     keywords VARCHAR(255) NOT NULL,
     created_at TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP,

@@ -56,7 +56,7 @@ func Search() templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 3, "<input type=\"text\" placeholder=\"Найти новость\" class=\"")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 3, "<input id=\"search-input\" type=\"text\" placeholder=\"Найти новость\" class=\"")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -78,7 +78,7 @@ func Search() templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 5, "<button class=\"")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 5, "<button id=\"search-btn\" class=\"")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -91,7 +91,7 @@ func Search() templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 6, "\"><img src=\"/public/icons/search.svg\" alt=\"search\"></button></div>")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 6, "\"><img src=\"/public/icons/search.svg\" alt=\"search\"></button></div><script>\r\n\t\tconst searchButton = document.querySelector('#search-btn');\r\n\t\tsearchButton.addEventListener('click', () => {\r\n\t\t\tconst searchValue = document.querySelector('#search-input').value;\r\n\t\t\tif (searchValue) {\r\n\t\t\t\tfetch(`/api/news?limit=10&offset=0&keyword=${searchValue}`)\r\n\t\t\t\t\t.then(response => response.text())\r\n\t\t\t\t\t.then(data => {\r\n\t\t\t\t\t\tconst postsGrid = document.querySelector('#posts-grid');\r\n\t\t\t\t\t\tpostsGrid.innerHTML = data;\r\n\t\t\t\t\t});\r\n\t\t\t}\r\n\t\t});\t\t\t\t\t\r\n\t</script>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}

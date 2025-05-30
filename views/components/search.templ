@@ -2,11 +2,33 @@ package components
 
 templ Search() {
 	<div class={ searchClass() }>
-		<input type="text" placeholder="Найти новость" class={ searchInputClass() }/>
-		<button class={ searchButtonClass() }>
+		<input
+			id="search-input"
+			type="text"
+			placeholder="Найти новость"
+			class={ searchInputClass() }
+		/>
+		<button
+			id="search-btn"
+			class={ searchButtonClass() }
+		>
 			<img src="/public/icons/search.svg" alt="search"/>
 		</button>
 	</div>
+	<script>
+		const searchButton = document.querySelector('#search-btn');
+		searchButton.addEventListener('click', () => {
+			const searchValue = document.querySelector('#search-input').value;
+			if (searchValue) {
+				fetch(`/api/news?limit=10&offset=0&keyword=${searchValue}`)
+					.then(response => response.text())
+					.then(data => {
+						const postsGrid = document.querySelector('#posts-grid');
+						postsGrid.innerHTML = data;
+					});
+			}
+		});					
+	</script>
 }
 
 css searchClass() {

@@ -1,0 +1,9 @@
+package widgets
+
+import "ostkost/go-ps-hw-fiber/views/components"
+
+templ Posts(posts []components.PostCardProps) {
+	for _, post := range posts {
+		@components.PostCard(post)
+	}
+}

@@ -6,8 +6,8 @@ import (
 )
 
 type CategoriesProps struct {
-	NavItems []components.NavbarItemProps
-	PostItems []components.PostCardProps
+	NavItems   []components.NavbarItemProps
+	PostItems  []components.PostCardProps
 	PostsTitle string
 }
 
@@ -19,7 +19,8 @@ templ Categories(props CategoriesProps) {
 		@layout.Header()
 		@layout.NavTags(props.NavItems)
 		<main>
-			@layout.PostsGrid(props.PostsTitle, props.PostItems)
+			@components.TitleSection(props.PostsTitle)
+			@layout.PostsGrid(props.PostItems)
 		</main>
 		@layout.Footer()
 	}

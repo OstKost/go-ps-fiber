@@ -1,13 +1,11 @@
 package layout
 
 import "ostkost/go-ps-hw-fiber/views/components"
+import "ostkost/go-ps-hw-fiber/views/widgets"
 
-templ PostsGrid(title string, posts []components.PostCardProps) {
-	@components.TitleSection(title)
-	<div class={ PostsGridClass() }>
-		for _, post := range posts {
-			@components.PostCard(post)
-		}
+templ PostsGrid(posts []components.PostCardProps) {
+	<div class={ PostsGridClass() } id="posts-grid">
+		@widgets.Posts(posts)
 	</div>
 	@PostActions()
 }
@@ -15,11 +13,23 @@ templ PostsGrid(title string, posts []components.PostCardProps) {
 templ PostActions() {
 	@PostsGridActionsBtnClass()
 	<div class={ PostsGridActionsClass() }>
-		<button class="posts-actions-btn">
+		<button
+			class="posts-actions-btn"
+			hx-get="/api/news?limit=10&offset=0"
+			hx-trigger="click"
+			hx-target="#posts-grid"
+			hx-swap="innerHTML"
+		>
 			<img src="/public/icons/arrow-left-1.svg" alt="arrow-left"/>
 			<span>Предыдущая</span>
 		</button>
-		<button class="posts-actions-btn">
+		<button
+			class="posts-actions-btn"
+			hx-get="/api/news?limit=10&offset=10"
+			hx-trigger="click"
+			hx-target="#posts-grid"
+			hx-swap="innerHTML"
+		>
 			<span>Следующая</span>
 			<img src="/public/icons/arrow-right-1.svg" alt="arrow-right"/>
 		</button>
