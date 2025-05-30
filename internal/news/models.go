@@ -8,7 +8,6 @@ type NewsArticle struct {
 	Preview    string    `db:"preview"`
 	Text       string    `db:"text"`
 	UserId     int       `db:"user_id"`
-	UserEmail  string    `db:"user_email"`
 	Categories []string  `db:"categories"`
 	Keywords   []string  `db:"keywords"`
 	CreatedAt  time.Time `db:"created_at"`

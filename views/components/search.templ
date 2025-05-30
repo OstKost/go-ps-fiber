@@ -2,11 +2,71 @@ package components
 
 templ Search() {
 	<div class={ searchClass() }>
-		<input type="text" placeholder="Найти новость" class={ searchInputClass() }/>
-		<button class={ searchButtonClass() }>
+		<input
+			id="search-input"
+			type="text"
+			placeholder="Найти новость"
+			class={ searchInputClass() }
+		/>
+		<button
+			id="search-btn"
+			class={ searchButtonClass() }
+		>
 			<img src="/public/icons/search.svg" alt="search"/>
 		</button>
 	</div>
+	<script>
+		const searchInput = document.querySelector('#search-input');		
+		const searchButton = document.querySelector('#search-btn');
+
+		searchButton.addEventListener('click', handleSearch);
+		searchInput.addEventListener('keydown', handleKeyDown);
+
+		// Обработчик клика по кнопке поиска
+        function handleSearch() {
+            performSearch();
+        }
+
+        // Обработчик нажатия Enter в поле ввода
+        function handleKeyDown(event) {
+            if (event.key === 'Enter') {
+                performSearch();
+            }
+        }
+
+        // Основная функция поиска
+        function performSearch() {
+            const searchValue = document.querySelector('#search-input').value.trim();
+            
+            if (!searchValue) {
+                alert('Пожалуйста, введите поисковый запрос');
+                return;
+            }
+
+            // Показываем индикатор загрузки
+            searchButton.disabled = true;        
+            fetch(`/api/news?limit=10&offset=0&keyword=${encodeURIComponent(searchValue)}`)
+                .then(response => {
+					console.log(response)
+                    if (!response.ok) {
+                        throw new Error(`Ошибка HTTP: ${response.status}`);
+                    }
+                    return response.text();
+                })
+                .then(data => {
+					const postsGrid = document.querySelector('#posts-grid');
+                    postsGrid.innerHTML = data;
+                })
+                .catch(error => {
+                    console.error('Ошибка поиска:', error);
+                    alert('Произошла ошибка при поиске. Пожалуйста, попробуйте позже.');
+                })
+                .finally(() => {
+                    // Восстанавливаем кнопку
+                    searchButton.disabled = false;                    
+                });
+        }				
+	</script>
 }
 
 css searchClass() {

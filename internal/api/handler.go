@@ -11,6 +11,8 @@ import (
 	"ostkost/go-ps-hw-fiber/pkg/types"
 	"ostkost/go-ps-hw-fiber/pkg/validator"
 	"ostkost/go-ps-hw-fiber/views/components"
+	"ostkost/go-ps-hw-fiber/views/widgets"
+	"strconv"
 
 	"github.com/gobuffalo/validate"
 	"github.com/gobuffalo/validate/validators"
@@ -48,6 +50,7 @@ func NewApiHandler(props ApiHandlerProps) {
 	apiGroup.Post("/login", h.login)
 	apiGroup.Post("/logout", h.logout)
 	apiGroup.Post("/news", h.createNews)
+	apiGroup.Get("/news", h.findNews)
 }
 
 func (h ApiHandler) register(ctx *fiber.Ctx) error {
@@ -173,11 +176,41 @@ func (h ApiHandler) createNews(ctx *fiber.Ctx) error {
 		return tadapter.Render(ctx, component, http.StatusBadRequest)
 	}
 	// Db insert
-	fmt.Println("HELLO")
 	err := h.newsRepo.Create(f, userId)
 	if err != nil {
 		h.logger.Error(fmt.Sprintf("DB: Failed to create news: %s", err.Error()))
 		return tadapter.Render(ctx, components.Notification("Ошибка на сервере при создании новости", components.NotificationError), http.StatusInternalServerError)
 	}
 	return tadapter.Render(ctx, components.Notification("Новость создана", components.NotificationSuccess), http.StatusCreated)
+}
+
+func (h ApiHandler) findNews(ctx *fiber.Ctx) error {
+	limit := ctx.QueryInt("limit")
+	offset := ctx.QueryInt("offset")
+	category := ctx.Query("category")
+	keyword := ctx.Query("keyword")
+	if limit == 0 {
+		limit = 10
+	}
+	if offset == 0 {
+		offset = 0
+	}
+	news, err := h.newsRepo.Find(limit, offset, category, keyword)
+	if err != nil {
+		h.logger.Error(fmt.Sprintf("DB: Failed to find news: %s", err.Error()))
+		return tadapter.Render(ctx, components.Notification("Ошибка на сервере при поиске новостей", components.NotificationError), http.StatusInternalServerError)
+	}
+	var posts []components.PostCardProps
+	for _, n := range news {
+		posts = append(posts, components.PostCardProps{
+			Title:       n.Title,
+			Description: n.Text,
+			Img:         "nature.jpg",
+			Username:    strconv.Itoa(n.UserId),
+			AvatarImg:   "Mike.jpg",
+			Date:        n.CreatedAt.Format("02.01.2006"),
+		})
+	}
+	component := widgets.Posts(posts)
+	return tadapter.Render(ctx, component, http.StatusOK)
 }

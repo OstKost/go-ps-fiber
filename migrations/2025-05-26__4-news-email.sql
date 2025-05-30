@@ -1,1 +1,0 @@
-ALTER TABLE news.news DROP COLUMN user_email;

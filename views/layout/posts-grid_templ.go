@@ -9,8 +9,9 @@ import "github.com/a-h/templ"
 import templruntime "github.com/a-h/templ/runtime"
 
 import "ostkost/go-ps-hw-fiber/views/components"
+import "ostkost/go-ps-hw-fiber/views/widgets"
 
-func PostsGrid(title string, posts []components.PostCardProps) templ.Component {
+func PostsGrid(posts []components.PostCardProps) templ.Component {
 	return templruntime.GeneratedTemplate(func(templ_7745c5c3_Input templruntime.GeneratedComponentInput) (templ_7745c5c3_Err error) {
 		templ_7745c5c3_W, ctx := templ_7745c5c3_Input.Writer, templ_7745c5c3_Input.Context
 		if templ_7745c5c3_CtxErr := ctx.Err(); templ_7745c5c3_CtxErr != nil {
@@ -31,10 +32,6 @@ func PostsGrid(title string, posts []components.PostCardProps) templ.Component {
 			templ_7745c5c3_Var1 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
-		templ_7745c5c3_Err = components.TitleSection(title).Render(ctx, templ_7745c5c3_Buffer)
-		if templ_7745c5c3_Err != nil {
-			return templ_7745c5c3_Err
-		}
 		var templ_7745c5c3_Var2 = []any{PostsGridClass()}
 		templ_7745c5c3_Err = templ.RenderCSSItems(ctx, templ_7745c5c3_Buffer, templ_7745c5c3_Var2...)
 		if templ_7745c5c3_Err != nil {
@@ -53,15 +50,13 @@ func PostsGrid(title string, posts []components.PostCardProps) templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 2, "\">")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 2, "\" id=\"posts-grid\">")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		for _, post := range posts {
-			templ_7745c5c3_Err = components.PostCard(post).Render(ctx, templ_7745c5c3_Buffer)
-			if templ_7745c5c3_Err != nil {
-				return templ_7745c5c3_Err
-			}
+		templ_7745c5c3_Err = widgets.Posts(posts).Render(ctx, templ_7745c5c3_Buffer)
+		if templ_7745c5c3_Err != nil {
+			return templ_7745c5c3_Err
 		}
 		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 3, "</div>")
 		if templ_7745c5c3_Err != nil {
@@ -118,7 +113,7 @@ func PostActions() templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 5, "\"><button class=\"posts-actions-btn\"><img src=\"/public/icons/arrow-left-1.svg\" alt=\"arrow-left\"> <span>Предыдущая</span></button> <button class=\"posts-actions-btn\"><span>Следующая</span> <img src=\"/public/icons/arrow-right-1.svg\" alt=\"arrow-right\"></button></div>")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 5, "\"><button class=\"posts-actions-btn\" hx-get=\"/api/news?limit=10&amp;offset=0\" hx-trigger=\"click\" hx-target=\"#posts-grid\" hx-swap=\"innerHTML\"><img src=\"/public/icons/arrow-left-1.svg\" alt=\"arrow-left\"> <span>Предыдущая</span></button> <button class=\"posts-actions-btn\" hx-get=\"/api/news?limit=10&amp;offset=10\" hx-trigger=\"click\" hx-target=\"#posts-grid\" hx-swap=\"innerHTML\"><span>Следующая</span> <img src=\"/public/icons/arrow-right-1.svg\" alt=\"arrow-right\"></button></div>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
