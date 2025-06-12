@@ -15,7 +15,7 @@ templ Header() {
 				@components.AuthLink(components.AuthLinkProps{Href: "/login", Text: "Войти"})
 				@components.AuthLink(components.AuthLinkProps{Href: "/register", Text: "Регистрация"})
 			} else {
-				@components.UserLabel(components.UserLabelProps{Name: userName, Src: "/public/images/users/Gyren.jpg"})
+				@components.UserLabel(components.UserLabelProps{Name: userName, Src: "/public/images/users/Gyren.jpg", IsAuth: userName == ""})
 			}
 		</div>
 	</header>

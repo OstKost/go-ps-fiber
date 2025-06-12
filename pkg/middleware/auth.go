@@ -24,9 +24,14 @@ func AuthMiddleware(store *session.Store) fiber.Handler {
 		if email, ok := sess.Get("email").(string); ok {
 			userEmail = email
 		}
+		// Сохраняем данные в Locals
 		ctx.Locals("userId", userId)
 		ctx.Locals("userEmail", userEmail)
 		ctx.Locals("userName", userName)
+		// Дополнительно сохраняем в контекст для совместимости
+		ctx.Context().SetUserValue("userId", userId)
+		ctx.Context().SetUserValue("userEmail", userEmail)
+		ctx.Context().SetUserValue("userName", userName)
 		return ctx.Next()
 	}
 }
