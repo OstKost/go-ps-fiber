@@ -1,13 +1,9 @@
-{{ template "layout" . }}
-
-{{ define "body" }}
-<header>
-    {{ template "navbar" . }}
-</header>
+{{ template "layout" . }} {{ define "body" }}
+<header>{{ template "categories" . }}</header>
 <main>
-    <h1>Hello, World</h1>
+  <h1>Hello, World</h1>
 </main>
 <footer>
-    <span>Footer</span>
+  <span>Footer</span>
 </footer>
 {{ end }}
