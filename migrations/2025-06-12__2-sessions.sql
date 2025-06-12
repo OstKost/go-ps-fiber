@@ -1,0 +1,7 @@
+
+CREATE TABLE IF NOT EXISTS news.sessions (
+    id VARCHAR(64) PRIMARY KEY,
+    data BYTEA NOT NULL,
+    expiry TIMESTAMPTZ NOT NULL,
+    created_at TIMESTAMPTZ DEFAULT NOW()
+);
