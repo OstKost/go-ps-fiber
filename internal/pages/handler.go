@@ -1,8 +1,9 @@
 package pages
 
 import (
-	"github.com/gofiber/fiber/v2"
 	"log/slog"
+
+	"github.com/gofiber/fiber/v2"
 )
 
 type PagesHandler struct {
@@ -15,7 +16,7 @@ func NewPagesHandler(router fiber.Router) {
 	}
 
 	h.router.Get("/", h.base)
-	h.router.Get("/about", h.about)
+	h.router.Get("/page", h.about)
 }
 
 func (h PagesHandler) base(ctx *fiber.Ctx) error {
@@ -24,6 +25,25 @@ func (h PagesHandler) base(ctx *fiber.Ctx) error {
 }
 
 func (h PagesHandler) about(ctx *fiber.Ctx) error {
-	slog.Error("about", "page", "about", "count", 2)
-	return ctx.JSON(fiber.Map{"page": "about", "status": "OK"})
+	categories := []struct {
+		URL  string
+		Name string
+	}{
+		{URL: "/", Name: "base"},
+		{URL: "/page", Name: "page"},
+		{URL: "/page/users", Name: "users"},
+		{URL: "/page/users/:id", Name: "user"},
+		{URL: "/page/groups", Name: "groups"},
+	}
+	data := struct {
+		Title      string
+		Categories []struct {
+			URL  string
+			Name string
+		}
+	}{
+		Title:      "Главная страница",
+		Categories: categories,
+	}
+	return ctx.Render("page", data)
 }
