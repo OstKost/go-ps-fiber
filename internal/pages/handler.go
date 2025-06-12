@@ -1,8 +1,9 @@
 package pages
 
 import (
-	"github.com/gofiber/fiber/v2"
 	"log/slog"
+
+	"github.com/gofiber/fiber/v2"
 )
 
 type PagesHandler struct {
@@ -24,7 +25,7 @@ func (h PagesHandler) base(ctx *fiber.Ctx) error {
 }
 
 func (h PagesHandler) about(ctx *fiber.Ctx) error {
-	links := []struct {
+	categories := []struct {
 		URL  string
 		Name string
 	}{
@@ -35,14 +36,14 @@ func (h PagesHandler) about(ctx *fiber.Ctx) error {
 		{URL: "/page/groups", Name: "groups"},
 	}
 	data := struct {
-		Title string
-		Links []struct {
+		Title      string
+		Categories []struct {
 			URL  string
 			Name string
 		}
 	}{
-		Title: "Главная страница",
-		Links: links,
+		Title:      "Главная страница",
+		Categories: categories,
 	}
 	return ctx.Render("page", data)
 }

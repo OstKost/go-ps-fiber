@@ -1,63 +1,21 @@
 {{ define "layout" }}
 <!DOCTYPE html>
 <html lang="en">
-<head>
+  <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>{{ .Title }}</title>
     <style>
-        body {
-            margin: 0;
-            padding: 20px;
-            font-family: sans-serif;
-            background: #f9f9f9;
-        }
-        .navbar {
-            display: flex;
-            overflow-x: auto;
-            padding: 10px;
-            gap: 24px;
-            background-color: #F5F5F5;
-            border-radius: 12px;
-        }
-        .nav-item {
-            min-width: 170px;
-            height: 48px;
-            border-radius: 12px;
-            color: white;
-            font-weight: bold;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            background-color: #383838;
-            background-size: cover;
-            background-position: center;
-            flex-shrink: 0;
-            box-shadow: 0 2px 6px rgba(0,0,0,0.2);
-            transition: transform 0.2s;
-            /* H5 */
-            font-family: 'Roboto';
-            font-style: normal;
-            font-weight: 500;
-            font-size: 16px;
-            line-height: 19px;
-            /* identical to box height */
-            text-align: center;
-            text-transform: capitalize;
-            /* White */
-            color: #FFFFFF;
-            text-shadow: 0px 0px 2px rgba(0, 0, 0, 0.4);
-        }
-        .nav-item:hover {
-            transform: scale(1.05);
-        }
-        .nav-item a {
-            text-decoration: none;
-        }
+      body {
+        margin: 0;
+        padding: 20px;
+        font-family: sans-serif;
+        background: #f9f9f9;
+      }
     </style>
-</head>
-<body>
-{{ template "body" . }}
-</body>
+  </head>
+  <body>
+    {{ template "body" . }}
+  </body>
 </html>
 {{ end }}
