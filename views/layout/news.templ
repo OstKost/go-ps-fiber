@@ -2,21 +2,20 @@ package layout
 
 import "ostkost/go-ps-hw-fiber/views/components"
 
-templ News(newsItems []components.NewsCardProps, newsSlides []components.NewsSlideProps) {
-    @NewsStyles()
-    <div class="news__container">
-        for _, newsItem := range newsItems {
-            @components.NewsCard(newsItem)
-        }
-        @components.NewsSlider(newsSlides)
-    </div>
+templ Gallery(galleryItems []components.GalleryCardProps, gallerySlides []components.GallerySlideProps) {
+	@GalleryStyles()
+	<div class="gallery__container">
+		for _, galleryItem := range galleryItems {
+			@components.GalleryCard(galleryItem)
+		}
+		@components.GallerySlider(gallerySlides)
+	</div>
 }
 
-templ NewsStyles() {
-    <style>
-        .news__container {
-            display: flex;
-            // justify-content: space-between;
+templ GalleryStyles() {
+	<style>
+        .gallery__container {
+            display: flex;            
             gap: 24px;
             padding: 60px 0;
         }
