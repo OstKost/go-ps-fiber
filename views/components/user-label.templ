@@ -8,17 +8,13 @@ type UserLabelProps struct {
 
 templ UserLabel(props UserLabelProps) {
 	@UserLabelStyle()
-	if props.IsAuth {
-		<a class="user-label" hx-post="/api/logout" hx-trigger="click">
-			<div class="user-label">
-				<img class="user-label__img" src={ props.Src }/>
-				<p class="user-label__name">{ props.Name }</p>
-				<img src="/public/icons/arrow-down.svg"/>
-			</div>
-		</a>
-	} else {
-		<p>Не авторизован</p>
-	}
+	<a class="user-label" hx-post="/api/logout" hx-trigger="click" hx-disable={ !props.IsAuth }>
+		<div class="user-label">
+			<img class="user-label__img" src={ props.Src }/>
+			<p class="user-label__name">{ props.Name }</p>
+			<img src="/public/icons/arrow-down.svg"/>
+		</div>
+	</a>
 }
 
 templ UserLabelStyle() {
