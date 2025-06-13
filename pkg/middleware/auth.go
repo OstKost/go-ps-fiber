@@ -32,7 +32,6 @@ func AuthMiddleware(store *session.Store) fiber.Handler {
 		ctx.Context().SetUserValue("userId", userId)
 		ctx.Context().SetUserValue("userEmail", userEmail)
 		ctx.Context().SetUserValue("userName", userName)
-		ctx.Status(500).SendString("Ошибка получения сессии")
 		return ctx.Next()
 	}
 }
