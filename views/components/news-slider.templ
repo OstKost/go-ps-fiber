@@ -1,16 +1,8 @@
 package components
 
-import "fmt"
-
-type NewsSlideProps struct {
-	Title       string
-	Description string
-	Img         string
-}
-
 templ NewsSlider(slides []NewsSlideProps) {
 	@NewsSliderStyles()
-	@NewsSliderSlideStyles()
+	@NewsSliderScript()
 	<div class="news-slider__container">
 		<div class="news-slider__slides">
 			for _, slide := range slides {
@@ -33,13 +25,87 @@ templ NewsSlider(slides []NewsSlideProps) {
 	</div>
 }
 
-templ NewsSlide(props NewsSlideProps) {
-	<div class="slide__container" style={ fmt.Sprintf("background-image: url(/public/images/news/%s);", props.Img) }>
-		<div class="slide__info">
-			<h3 class="slide__title">{ props.Title }</h3>
-			<p class="slide__description">{ props.Description }</p>
-		</div>
-	</div>
+templ NewsSliderScript() {
+	<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        class NewsSlider {
+            constructor(container) {
+                this.container = container;
+                this.slidesContainer = container.querySelector('.news-slider__slides');
+                this.slides = Array.from(container.querySelectorAll('.slide__container'));
+                this.prevBtn = container.querySelector('.news-slider__btn:first-child');
+                this.nextBtn = container.querySelector('.news-slider__btn:last-child');
+                this.dots = Array.from(container.querySelectorAll('.news-slider__status-item'));
+                this.currentIndex = 0;
+                this.autoPlayInterval = null;
+                this.autoPlayDelay = 5000;
+
+                this.init();
+            }
+
+            init() {
+                // Навигация
+                this.prevBtn.addEventListener('click', () => this.prevSlide());
+                this.nextBtn.addEventListener('click', () => this.nextSlide());
+
+                // Точечная навигация
+                this.dots.forEach((dot, index) => {
+                    dot.addEventListener('click', () => this.goToSlide(index));
+                });
+
+                // Автоплей
+                this.startAutoPlay();
+                
+                // Остановка автоплея при наведении
+                this.container.addEventListener('mouseenter', () => this.stopAutoPlay());
+                this.container.addEventListener('mouseleave', () => this.startAutoPlay());
+
+                this.updateSlider();
+            }
+
+            updateSlider() {
+                this.slidesContainer.style.transform = `translateX(-${this.currentIndex * 100}%)`;
+            
+                // Обновление активной точки
+                this.dots.forEach((dot, index) => {
+                    dot.classList.toggle('news-slider__status-item--active', index === this.currentIndex);
+                });
+            }
+
+            nextSlide() {
+                this.currentIndex = (this.currentIndex + 1) % this.slides.length;
+                this.updateSlider();
+            }
+
+            prevSlide() {
+                this.currentIndex = (this.currentIndex - 1 + this.slides.length) % this.slides.length;
+                this.updateSlider();
+            }
+
+            goToSlide(index) {
+                this.currentIndex = index;
+                this.updateSlider();
+            }
+
+            startAutoPlay() {
+                this.stopAutoPlay();
+                this.autoPlayInterval = setInterval(() => this.nextSlide(), this.autoPlayDelay);
+            }
+
+            stopAutoPlay() {
+                if (this.autoPlayInterval) {
+                    clearInterval(this.autoPlayInterval);
+                    this.autoPlayInterval = null;
+                }
+            }
+        }
+
+        // Инициализация всех слайдеров на странице
+        document.querySelectorAll('.news-slider__container').forEach(container => {
+            new NewsSlider(container);
+        });
+    });
+    </script>
 }
 
 templ NewsSliderStyles() {
@@ -55,8 +121,11 @@ templ NewsSliderStyles() {
         overflow: hidden;
     }
     .news-slider__slides {
+        display: flex;
+        transition: transform 0.5s ease;
         width: 100%;
         height: 100%;
+        transform-style: preserve-3d;
     }
     .news-slider__actions {
         position: absolute;
@@ -79,7 +148,14 @@ templ NewsSliderStyles() {
         cursor: pointer;
         transition: 200ms;
      }
-     .slider__btn:hover {
+     .news-slider__btn img {
+        opacity: 0.5;
+        transition: 200ms;
+     }
+     .news-slider__btn:hover img {
+        opacity: 1;
+     }
+     .news-slider__btn:hover {    
         background: #dcdcdc;
      }
     .news-slider__status {
@@ -96,6 +172,7 @@ templ NewsSliderStyles() {
         border-radius: 50%;
         background: rgba(255, 255, 255, 0.5);
         transition: 200ms;
+        cursor: pointer;
     }
     .news-slider__status-item--active {
         width: 27px;
@@ -103,57 +180,5 @@ templ NewsSliderStyles() {
         background: #FFFFFF;
         border-radius: 50px;
     }
-</style>
-}
-
-templ NewsSliderSlideStyles() {
-	<style>
-    .slide__container {
-        display: flex;
-        flex-direction: column;
-        justify-content: flex-end;
-        width: 100%;
-        height: 100%;
-        padding: 10px;
-        background-color: #f5f5f5;
-        background-size: 100%;
-        background-repeat: no-repeat;
-        background-position: center;
-    }
-    .slide__info {
-         display: flex;
-         flex-direction: column;
-         justify-content: space-between;
-         width: 100%;
-         height: 117px;
-         padding: 16px;
-         background: rgba(255, 255, 255, 0.75);
-         backdrop-filter: blur(5px);
-         border-radius: 12px;
-     }
-     .slide__title {
-         margin: 0;
-         font-weight: 400;
-         font-size: 25px;
-         line-height: 29px;
-         color: #000000;
-     }
-     .slide__description {
-         display: -webkit-box;
-         display: box;
-         -webkit-line-clamp: 2;
-         line-clamp: 2;
-         -webkit-box-orient: vertical;
-         box-orient: vertical;
-         overflow: hidden;
-         text-overflow: ellipsis;
-         max-width: 75%;
-         margin: 0;
-         font-weight: 400;
-         font-size: 14px;
-         line-height: 20px;
-         letter-spacing: 0.25px;
-         color: rgba(0, 0, 0, 0.75);
-     }
 </style>
 }

@@ -70,7 +70,7 @@ func Index(props IndexProps) templ.Component {
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			templ_7745c5c3_Err = layout.News(props.News, props.NewsSlides).Render(ctx, templ_7745c5c3_Buffer)
+			templ_7745c5c3_Err = layout.Gallery(props.News, props.NewsSlides).Render(ctx, templ_7745c5c3_Buffer)
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
